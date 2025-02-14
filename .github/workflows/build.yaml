@@ -1,0 +1,62 @@
+name: Build
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - ".github/workflows/build.yaml"
+      - "biome.jsonc"
+      - ".gitignore"
+      - "next.config.ts"
+      - "package.json"
+      - "package-lock.json"
+      - "postcss.config.mjs"
+      - "tailwind.config.ts"
+      - "tsconfig.json"
+      - "vitest.config.mts"
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: ubuntu-latest
+    steps:
+      # 実行環境に、リポジトリコードを取り込む
+      - uses: actions/checkout@v4
+      # Node.jsを22.13.1に設定
+      - name: Setting up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 22.13.1
+      # 共通利用する環境変数を、envsディレクトリから複製
+      - name: Duplicate .env file
+        uses: canastro/copy-file-action@master
+        with:
+          source: "envs/.env.local.sample"
+          target: ".env.local"
+      # node_modulesディレクトリをキャッシュ
+      - name: Cache node_modules directory
+        id: node-cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }} # package-lock.jsonが同一であれば、キャッシュキーが等しくなるので、そのままキャッシュを使える
+          # keyで指定したキャッシュが見つからなかった場合に、他のキャッシュを検索するためのキー断片
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+      # Next.js自体の静的ファイルキャッシュについても、こちらのキャッシュを用いる
+      - name: Cache Next.js cache directory
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-next-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-next-cache-
+      # 依存をインストール
+      - name: Install dependencies
+        run: npm ci
+        if:
+          steps.node-cache.outputs.cache-hit != 'true'
+          # キャッシュがヒットしなかった場合のみ、実行
+      # ビルド
+      - name: Build Next.js app
+        run: npm run build
