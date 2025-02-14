@@ -1,0 +1,8 @@
+feature: ["feature*", "feat*"]
+enhancement: ["enhancement*"]
+fix: ["fix*", "bug*"]
+refactoring: ["refactor*", "refactoring*"]
+documentation: ["doc*", "documentation*"]
+upgrade: ["upgrade*"]
+dependabot: ["dependabot*"]
+init: ["init*"]
