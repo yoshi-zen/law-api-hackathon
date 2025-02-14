@@ -1,0 +1,69 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json", // biome.jsonの型スキーマのパス
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": [
+      "package-lock.json",
+      "package.json",
+      "next.config.ts",
+      "postcss.config.mjs",
+      "**/dist",
+      "**/.next",
+      "**/.turbo",
+      "**/.vscode",
+      "**/node_modules"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "attributePosition": "multiline" // 属性に関しては、必ず複数行にまたがるようにする
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "noBlankTarget": "error", // relにnoopener noreferrerを指定する
+        "noRedundantAlt": "error", // imgのalt属性は必ず意味のあるものとさせる（SEO的観点）
+        "useAltText": "error", // imgのalt属性は必ず指定させる（SEO的観点）
+        "useButtonType": "error" // buttonのtype属性は必ず指定させる
+      },
+      "complexity": {},
+      "correctness": {
+        "noUnusedImports": "error" // 未使用のimportは削除させる
+      },
+      "nursery": {
+        // class属性はアルファベット順に並べる（Tailwind CSS用）
+        // "useSortedClasses": "error"
+        // on-save実行しないので、一旦コメントとした
+      },
+      "performance": {},
+      "style": {},
+      "suspicious": {
+        "recommended": true
+      },
+      "security": {
+        "recommended": true
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "enabled": true,
+      "quoteStyle": "double",
+      "jsxQuoteStyle": "double",
+      "trailingCommas": "all",
+      "semicolons": "always"
+    }
+  }
+}
