@@ -1,4 +1,4 @@
-name: Build
+name: Test
 
 on:
   pull_request:
@@ -16,8 +16,8 @@ on:
       - "vitest.config.mts"
 
 jobs:
-  build:
-    name: "Build"
+  test:
+    name: "Test"
     runs-on: ubuntu-latest
     steps:
       # 実行環境に、リポジトリコードを取り込む
@@ -54,5 +54,5 @@ jobs:
           steps.node-cache.outputs.cache-hit != 'true'
           # キャッシュがヒットしなかった場合のみ、実行
       # ビルド
-      - name: Build Next.js app
-        run: npm run build
+      - name: Test Next.js app
+        run: npm run test
