@@ -6,9 +6,9 @@ import { AttachedFileSchema } from "./attached-file";
  * image_data: Base64エンコードされた画像データ
  * attached_files: 添付ファイル一覧
  */
-export const AttachedFileInfoSchema = z.object({
+export const AttachedFilesInfoSchema = z.object({
   image_data: z.string(),
   attached_files: z.array(AttachedFileSchema),
 });
 
-export type AttachedFileInfoType = z.infer<typeof AttachedFileInfoSchema>;
+export type AttachedFileInfoType = z.infer<typeof AttachedFilesInfoSchema>;
