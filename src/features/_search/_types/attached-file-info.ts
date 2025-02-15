@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AttachedFileSchema } from "./attached_file";
+import { AttachedFileSchema } from "./attached-file";
 
 /**
  * 添付ファイル情報を指す。
