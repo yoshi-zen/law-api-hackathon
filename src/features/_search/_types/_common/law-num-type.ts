@@ -21,8 +21,8 @@ const lawNumTypeListJp = [
 ];
 
 export const lawNumTypeMap = lawNumTypeList.map((lawNumType, i) => ({
-  ja: lawNumTypeListJp[i],
-  en: lawNumType,
+  label: lawNumTypeListJp[i],
+  value: lawNumType,
 }));
 
 /**

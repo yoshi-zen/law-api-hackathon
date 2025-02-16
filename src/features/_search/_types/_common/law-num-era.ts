@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 const eraList = ["Meiji", "Taisho", "Showa", "Heisei", "Reiwa"] as const;
-const eraListJp = ["明治", "大正", "昭和", "平成", "令和"] as const;
+const eraListLabel = ["明治", "大正", "昭和", "平成", "令和"] as const;
 
-export const eraMap = eraList.map((era, i) => ({
-  ja: eraListJp[i],
-  en: era,
+export const lawNumEraMap = eraList.map((era, i) => ({
+  label: eraListLabel[i],
+  value: era,
 }));
 
 /**

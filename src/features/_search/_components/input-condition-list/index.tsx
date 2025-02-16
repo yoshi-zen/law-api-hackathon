@@ -1,13 +1,8 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { eraMap } from "../../_types/_common/law-num-era";
+import {} from "@/components/ui/select";
+import { lawNumEraMap } from "../../_types/_common/law-num-era";
 import { lawNumTypeMap } from "../../_types/_common/law-num-type";
 import { InputCondition } from "../input-condition";
+import { SelectCondition } from "../select-condition";
 
 export const InputConditionList = () => {
   return (
@@ -20,46 +15,20 @@ export const InputConditionList = () => {
         title="法令番号"
         name="law_num"
       />
-      <div className="rounded-md px-4 py-2">
-        <p>法令番号の元号</p>
-        <Select name="law_num_era">
-          <SelectTrigger>
-            <SelectValue placeholder="選択してください" />
-          </SelectTrigger>
-          <SelectContent>
-            {eraMap.map((era, idx) => (
-              <SelectItem
-                key={`${era.en}-${idx}`}
-                value={era.en}
-              >
-                {era.ja}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <SelectCondition
+        title="法令番号の元号"
+        name="law_num_era"
+        options={lawNumEraMap}
+      />
       <InputCondition
         title="法令番号の号数"
         name="law_num_num"
       />
-      <div className="rounded-md px-4 py-2">
-        <p>法令番号の法令種別</p>
-        <Select name="law_num_type">
-          <SelectTrigger>
-            <SelectValue placeholder="選択してください" />
-          </SelectTrigger>
-          <SelectContent>
-            {lawNumTypeMap.map((lawNumType, idx) => (
-              <SelectItem
-                key={`${lawNumType.en}-${idx}`}
-                value={lawNumType.en}
-              >
-                {lawNumType.ja}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <SelectCondition
+        title="法令番号の法令種別"
+        name="law_num_type"
+        options={lawNumTypeMap}
+      />
       <InputCondition
         title="法令番号の年"
         name="law_num_year"
@@ -76,24 +45,11 @@ export const InputConditionList = () => {
         title="法令名かな読み（部分一致）"
         name="law_title_kana"
       />
-      <div className="rounded-md px-4 py-2">
-        <p>法令種別</p>
-        <Select name="law_type">
-          <SelectTrigger>
-            <SelectValue placeholder="選択してください" />
-          </SelectTrigger>
-          <SelectContent>
-            {lawNumTypeMap.map((lawNumType, idx) => (
-              <SelectItem
-                key={`${lawNumType.en}-${idx}`}
-                value={lawNumType.en}
-              >
-                {lawNumType.ja}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <SelectCondition
+        title="法令種別"
+        name="law_type"
+        options={lawNumTypeMap}
+      />
     </div>
   );
 };
