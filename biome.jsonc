@@ -36,7 +36,8 @@
         "noBlankTarget": "error", // relにnoopener noreferrerを指定する
         "noRedundantAlt": "error", // imgのalt属性は必ず意味のあるものとさせる（SEO的観点）
         "useAltText": "error", // imgのalt属性は必ず指定させる（SEO的観点）
-        "useButtonType": "error" // buttonのtype属性は必ず指定させる
+        "useButtonType": "error", // buttonのtype属性は必ず指定させる
+        "useSemanticElements": "off"
       },
       "complexity": {},
       "correctness": {

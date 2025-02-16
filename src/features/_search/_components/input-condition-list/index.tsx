@@ -2,6 +2,7 @@ import {} from "@/components/ui/select";
 import { lawNumEraMap } from "../../_types/_common/law-num-era";
 import { lawNumTypeMap } from "../../_types/_common/law-num-type";
 import { InputCondition } from "../input-condition";
+import { MultiSelectCondition } from "../multi-select-condition";
 import { SelectCondition } from "../select-condition";
 
 export const InputConditionList = () => {
@@ -45,7 +46,7 @@ export const InputConditionList = () => {
         title="法令名かな読み（部分一致）"
         name="law_title_kana"
       />
-      <SelectCondition
+      <MultiSelectCondition
         title="法令種別"
         name="law_type"
         options={lawNumTypeMap}
