@@ -1,7 +1,7 @@
 export const InputConditionList = () => {
   return (
     <div>
-      <p>hoge</p>
+      <p className="text-red-500">hoge</p>
     </div>
   );
 };
