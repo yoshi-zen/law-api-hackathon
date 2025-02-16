@@ -46,6 +46,13 @@ export const InputCalendarCondition: FC<Props> = (props: Props) => {
           />
         </PopoverContent>
       </Popover>
+      {date && (
+        <input
+          type="hidden"
+          value={format(date, "yyyy-MM-dd")}
+          {...inputProps}
+        />
+      )}
     </div>
   );
 };

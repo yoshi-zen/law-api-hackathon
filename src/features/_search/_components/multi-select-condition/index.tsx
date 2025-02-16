@@ -123,6 +123,18 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
           </Command>
         </PopoverContent>
       </Popover>
+      {labels.length > 0 && (
+        <input
+          type="hidden"
+          name={name}
+          value={labels
+            .map(
+              (label) =>
+                options.find((option) => option.label === label)?.value,
+            )
+            .join(",")}
+        />
+      )}
     </div>
   );
 };
