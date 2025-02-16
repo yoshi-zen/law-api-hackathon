@@ -47,9 +47,17 @@ export const InputConditionList = () => {
         name="law_title_kana"
       />
       <MultiSelectCondition
-        title="法令種別"
+        title="法令種別（複数指定可）"
         name="law_type"
         options={lawNumTypeMap}
+      />
+      <InputCondition
+        title="改正法令の法令ID（部分一致）"
+        name="amendment_law_id"
+      />
+      <InputCondition
+        title="改正法令の法令番号（部分一致）"
+        name="amendment_law_num"
       />
     </div>
   );

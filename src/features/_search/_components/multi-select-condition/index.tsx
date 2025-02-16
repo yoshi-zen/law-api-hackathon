@@ -1,6 +1,7 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+
+import { Badge } from "components/ui/badge";
+import { Button } from "components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -8,12 +9,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+} from "components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { type FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -36,6 +33,10 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
     setLabels(labels.filter((value) => value !== label));
   };
 
+  const handleAddLabel = (label: string) => {
+    setLabels([...labels, label]);
+  };
+
   return (
     <div className="flex flex-col gap-2 rounded-md bg-white px-4 py-4">
       <p>{title}</p>
@@ -55,7 +56,10 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
                 ? options
                     .filter((option) => labels.includes(option.label))
                     .map((option, idx) => (
-                      <Badge key={`${option.value}-${idx}`}>
+                      <Badge
+                        key={`${option.value}-${idx}`}
+                        variant="outline"
+                      >
                         {option.label}
                       </Badge>
                     ))
@@ -77,11 +81,9 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
                       value={option.label}
                       onSelect={(currentValue) => {
                         if (labels.includes(currentValue)) {
-                          setLabels(
-                            labels.filter((value) => value !== currentValue),
-                          );
+                          handleRemoveLabel(currentValue);
                         } else {
-                          setLabels([...labels, currentValue]);
+                          handleAddLabel(currentValue);
                         }
                       }}
                       className="cursor-pointer"
