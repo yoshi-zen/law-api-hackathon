@@ -5,7 +5,7 @@ import { RevisionInfoSchema } from "./revision-info";
 export const LawsResponseSchema = z.object({
   total_count: z.number(),
   count: z.number(),
-  next_offset: z.number(),
+  next_offset: z.number().optional(),
   laws: z.array(
     z.object({
       law_info: LawInfoSchema,
