@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { twMerge } from "tailwind-merge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const notoSansJp = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -26,7 +27,30 @@ export default function RootLayout({
           notoSansJp.variable,
         )}
       >
-        {children}
+        <div className="grid grid-cols-[5fr_4fr] h-screen gap-4">
+          <div className="grid grid-cols-[1fr_4fr] grid-rows-[2.5rem_1fr] p-4 pr-0 h-screen gap-4">
+            <div className="bg-slate-400 rounded-md">
+            </div>
+            <div className="bg-slate-500 rounded-md">
+            </div>
+            <div className="rounded-md">
+            </div>
+            <div className="bg-slate-400 h-full flex-col overflow-y-scroll rounded-md">
+              {children}
+            </div>
+          </div>
+          <div className="rounded-md py-4">
+            <Tabs defaultValue="account" className="w-full">
+              <TabsList>
+                <TabsTrigger value="account">Account</TabsTrigger>
+                <TabsTrigger value="password">Password</TabsTrigger>
+              </TabsList>
+              <TabsContent value="account">Make changes to your account here.</TabsContent>
+              <TabsContent value="password">Change your password here.</TabsContent>
+            </Tabs>
+
+          </div>
+        </div>
       </body>
     </html>
   );
