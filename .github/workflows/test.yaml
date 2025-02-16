@@ -27,7 +27,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 22.13.1
-      # 共通利用する環境変数を、envsディレクトリから複製
+      # 実行環境から、package-lock.jsonを削除
+      - name: Remove package-lock.json
+        run: rm -f package-lock.json
 
       # node_modulesディレクトリをキャッシュ
       - name: Cache node_modules directory
@@ -49,7 +51,7 @@ jobs:
             ${{ runner.os }}-next-cache-
       # 依存をインストール
       - name: Install dependencies
-        run: npm i --legacy-peer-deps
+        run: npm ci --legacy-peer-deps
         if:
           steps.node-cache.outputs.cache-hit != 'true'
           # キャッシュがヒットしなかった場合のみ、実行
