@@ -1,11 +1,13 @@
-import {} from "@/components/ui/select";
-import { categoryCdLabelMap } from "../../_types/_common/category-cd";
-import { lawNumEraMap } from "../../_types/_common/law-num-era";
+import {} from "components/ui/select";
+import { categoryCdLabelMap } from "features/_search/_types/_common/category-cd";
+import { lawNumEraMap } from "features/_search/_types/_common/law-num-era";
 import { lawNumTypeMap } from "../../_types/_common/law-num-type";
 import { missionListMap } from "../../_types/_common/mission";
+import { repealStatusListMap } from "../../_types/_common/repeal-status";
 import { InputCalendarCondition } from "../input-calendar-condition";
 import { InputCondition } from "../input-condition";
 import { MultiSelectCondition } from "../multi-select-condition";
+import { RadioCondition } from "../radio-condition";
 import { SelectCondition } from "../select-condition";
 
 export const InputConditionList = () => {
@@ -76,6 +78,35 @@ export const InputConditionList = () => {
         title="新規制定又は被改正法令・一部改正法令を指定（複数指定可）"
         name="mission"
         options={missionListMap}
+      />
+      <RadioCondition
+        title="法令の時点（`asof`）に依存しない現在以前の最新の版の情報（current_revision_info）をレスポンスに含めるか"
+        name="omit_current_revision_info"
+        options={[
+          { value: "true", label: "含めない" },
+          { value: "false", label: "含める" },
+        ]}
+      />
+      <InputCalendarCondition
+        title="公布日(指定日を含む、指定日以降の法令を検索)"
+        name="promulgation_date_from"
+      />
+      <InputCalendarCondition
+        title="公布日(指定日を含む、指定日以前の法令を検索)"
+        name="promulgation_date_to"
+      />
+      <SelectCondition
+        title="廃止等の状態"
+        name="repeal_status"
+        options={repealStatusListMap}
+      />
+      <InputCondition
+        title="取得件数の上限値"
+        name="limit"
+      />
+      <InputCondition
+        title="取得開始位置"
+        name="offset"
       />
     </div>
   );

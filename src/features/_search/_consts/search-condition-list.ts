@@ -3,7 +3,7 @@ import { lawNumEraMap } from "../_types/_common/law-num-era";
 type SearchConditionsType = {
   title: string;
   placeholder: string;
-  type: "input" | "select" | "multi-select";
+  type: "input" | "select" | "multi-select" | "radio";
   options?: Array<{ value: string; label: string }>;
 };
 
