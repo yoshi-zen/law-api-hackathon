@@ -11,7 +11,7 @@ import {
   CommandList,
 } from "components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, CircleX } from "lucide-react";
 import { type FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -19,10 +19,11 @@ type Props = {
   title: string;
   name: string;
   options: Array<{ value: string; label: string }>;
+  withValue?: boolean;
 };
 
 export const MultiSelectCondition: FC<Props> = (props: Props) => {
-  const { title, options } = props;
+  const { title, name, options, withValue } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [labels, setLabels] = useState<
@@ -59,8 +60,19 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
                       <Badge
                         key={`${option.value}-${idx}`}
                         variant="outline"
+                        className="flex items-center gap-2"
                       >
-                        {option.label}
+                        {withValue
+                          ? `${option.value} - ${option.label}`
+                          : option.label}
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveLabel(option.label);
+                          }}
+                        >
+                          <CircleX className="h-1 w-1" />
+                        </div>
                       </Badge>
                     ))
                 : "選択してください"}
@@ -78,7 +90,11 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
                   return (
                     <CommandItem
                       key={`${option.value}-${idx}`}
-                      value={option.label}
+                      value={
+                        withValue
+                          ? `${option.value} - ${option.label}`
+                          : option.label
+                      }
                       onSelect={(currentValue) => {
                         if (labels.includes(currentValue)) {
                           handleRemoveLabel(currentValue);
@@ -88,7 +104,9 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
                       }}
                       className="cursor-pointer"
                     >
-                      {option.label}
+                      {withValue
+                        ? `${option.value} - ${option.label}`
+                        : option.label}
                       <Check
                         className={twMerge(
                           "ml-auto",

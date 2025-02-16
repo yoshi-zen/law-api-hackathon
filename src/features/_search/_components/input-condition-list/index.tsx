@@ -1,6 +1,9 @@
 import {} from "@/components/ui/select";
+import { categoryCdLabelMap } from "../../_types/_common/category-cd";
 import { lawNumEraMap } from "../../_types/_common/law-num-era";
 import { lawNumTypeMap } from "../../_types/_common/law-num-type";
+import { missionListMap } from "../../_types/_common/mission";
+import { InputCalendarCondition } from "../input-calendar-condition";
 import { InputCondition } from "../input-condition";
 import { MultiSelectCondition } from "../multi-select-condition";
 import { SelectCondition } from "../select-condition";
@@ -58,6 +61,21 @@ export const InputConditionList = () => {
       <InputCondition
         title="改正法令の法令番号（部分一致）"
         name="amendment_law_num"
+      />
+      <InputCalendarCondition
+        title="改正法令の施行日"
+        name="asof"
+      />
+      <MultiSelectCondition
+        title="事項別法令分類コード（複数指定可）"
+        name="category_cd"
+        options={categoryCdLabelMap}
+        withValue
+      />
+      <MultiSelectCondition
+        title="新規制定又は被改正法令・一部改正法令を指定（複数指定可）"
+        name="mission"
+        options={missionListMap}
       />
     </div>
   );
