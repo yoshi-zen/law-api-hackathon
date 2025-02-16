@@ -3,6 +3,17 @@ import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { twMerge } from "tailwind-merge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import TabContentDesign from "@/components/page/tabContentDesign";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Slash } from "lucide-react";
+
 
 const notoSansJp = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -31,21 +42,38 @@ export default function RootLayout({
           <div className="grid grid-cols-[1fr_4fr] grid-rows-[2.5rem_1fr] p-4 pr-0 h-screen gap-4">
             <div className="bg-slate-400 rounded-md">
             </div>
-            <div className="bg-slate-500 rounded-md">
+            <div className=" flex items-center rounded-md bg-slate-200 px-4">
+
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator>
+                    <Slash />
+                  </BreadcrumbSeparator>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/components">Components</BreadcrumbLink>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
             </div>
             <div className="rounded-md">
+
             </div>
             <div className="bg-slate-400 h-full flex-col overflow-y-scroll rounded-md">
               {children}
             </div>
           </div>
           <div className="rounded-md py-4">
-            <Tabs defaultValue="account" className="w-full">
+            <Tabs defaultValue="history" className="w-full">
               <TabsList>
                 <TabsTrigger value="history">改変履歴</TabsTrigger>
                 <TabsTrigger value="auxiliary">AI補助</TabsTrigger>
               </TabsList>
-              <TabsContent value="history">Make changes to your account here.</TabsContent>
+              <TabsContent value="history">
+                <TabContentDesign />
+              </TabsContent>
               <TabsContent value="auxiliary">Change your password here.</TabsContent>
             </Tabs>
           </div>
