@@ -42,13 +42,12 @@ export default function RootLayout({
           <div className="rounded-md py-4">
             <Tabs defaultValue="account" className="w-full">
               <TabsList>
-                <TabsTrigger value="account">Account</TabsTrigger>
-                <TabsTrigger value="password">Password</TabsTrigger>
+                <TabsTrigger value="history">改変履歴</TabsTrigger>
+                <TabsTrigger value="auxiliary">AI補助</TabsTrigger>
               </TabsList>
-              <TabsContent value="account">Make changes to your account here.</TabsContent>
-              <TabsContent value="password">Change your password here.</TabsContent>
+              <TabsContent value="history">Make changes to your account here.</TabsContent>
+              <TabsContent value="auxiliary">Change your password here.</TabsContent>
             </Tabs>
-
           </div>
         </div>
       </body>
