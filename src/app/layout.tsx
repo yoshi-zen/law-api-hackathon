@@ -65,7 +65,7 @@ export default function RootLayout({
               {children}
             </div>
           </div>
-          <div className="rounded-md py-4">
+          <div className="rounded-md p-4 pl-0">
             <Tabs defaultValue="history" className="w-full">
               <TabsList>
                 <TabsTrigger value="history">改変履歴</TabsTrigger>

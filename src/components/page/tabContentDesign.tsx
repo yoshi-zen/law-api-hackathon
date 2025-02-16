@@ -2,9 +2,9 @@
 export default function TabContentDesign() {
     return (
         <main>
-            <div className="bg-slate-400 h-full w-full relative">
-                <div className="m-2 rounded-sm h-full w-full">
-
+            <div className="bg-slate-200 rounded-md relative flex">
+                <div className="m-2 rounded-sm bg-white">
+                    AAAAa
                 </div>
             </div>
         </main>
