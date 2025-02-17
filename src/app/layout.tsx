@@ -12,6 +12,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slash } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import { IoLayersOutline } from "react-icons/io5";
+
 
 const notoSansJp = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -43,7 +45,8 @@ export default function RootLayout({
               <div className="bg-slate-600 rounded-md" />
             </div>
             <div className="grid grid-rows-[2.5rem_1fr] gap-4 ">
-              <div className=" flex items-center rounded-md bg-slate-200 px-4">
+              <div className="flex items-center rounded-md bg-slate-200 px-4">
+                <IoLayersOutline className="mr-2"/>
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
