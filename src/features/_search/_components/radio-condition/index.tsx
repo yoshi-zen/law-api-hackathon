@@ -16,7 +16,7 @@ export const RadioCondition: FC<Props> = (props: Props) => {
 
   return (
     <div className="flex flex-col gap-2 rounded-md bg-white px-4 py-4">
-      <p>{title}</p>
+      <p className="text-sm font-bold">{title}</p>
       <RadioGroup>
         {options.map((option, idx) => (
           <div

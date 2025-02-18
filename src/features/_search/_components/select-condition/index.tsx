@@ -1,12 +1,24 @@
-import type { SelectProps } from "@radix-ui/react-select";
+"use client";
+
+import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "components/ui/select";
-import type { FC } from "react";
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import type { SelectProps } from "@radix-ui/react-select";
+import {} from "components/ui/select";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { type FC, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   title: string;
@@ -15,24 +27,60 @@ type Props = {
 
 export const SelectCondition: FC<Props> = (props: Props) => {
   const { title, options, ...selectProps } = props;
+
+  const [label, setLabel] = useState<string | undefined>(undefined);
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="flex flex-col gap-2 rounded-md bg-white px-4 py-4">
-      <p>{title}</p>
-      <Select {...selectProps}>
-        <SelectTrigger>
-          <SelectValue placeholder="選択してください" />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((option, idx) => (
-            <SelectItem
-              key={`${option.value}-${idx}`}
-              value={option.value}
-            >
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <p className="text-sm font-bold">{title}</p>
+      <Popover
+        open={isOpen}
+        onOpenChange={setIsOpen}
+      >
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={isOpen}
+            className="flex h-8 w-full items-center justify-between"
+          >
+            {label ?? "選択してください"}
+            <ChevronsUpDown className="text-gray-500" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <Command>
+            <CommandInput placeholder="検索..." />
+            <CommandList>
+              <CommandEmpty>検索結果がありません</CommandEmpty>
+              <CommandGroup>
+                {options.map((option, idx) => {
+                  return (
+                    <CommandItem
+                      key={`${option.value}-${idx}`}
+                      value={option.label}
+                      className="cursor-pointer"
+                      onSelect={(value) => {
+                        setLabel(label === value ? undefined : value);
+                        setIsOpen(false);
+                      }}
+                    >
+                      {option.label}
+                      <Check
+                        className={twMerge(
+                          "ml-auto",
+                          label === option.label ? "opacity-100" : "opacity-0",
+                        )}
+                      />
+                    </CommandItem>
+                  );
+                })}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };
