@@ -10,7 +10,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Slash } from "lucide-react";
+import { Sidebar, Slash } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { IoLayersOutline } from "react-icons/io5";
 
@@ -42,7 +42,7 @@ export default function RootLayout({
           <div className="grid grid-cols-[1fr_4fr] p-4 pr-0 h-screen gap-4">
             <div className="grid grid-rows-[2.5rem_1fr] gap-4">
               <div className="bg-slate-400 rounded-md" />
-              <div className="bg-slate-200 rounded-md" />
+              <div className="bg-slate-200 rounded-md"><Sidebar/></div>
             </div>
             <div className="grid grid-rows-[2.5rem_1fr] gap-4 ">
               <div className="flex items-center rounded-md bg-slate-200 px-4">
