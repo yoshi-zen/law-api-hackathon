@@ -7,7 +7,7 @@ import { SelectCondition } from "../select-condition";
 
 export const InputConditionList = () => {
   return (
-    <div className="flex flex-col gap-4 bg-gray-100 p-4">
+    <div className="flex flex-col gap-4 bg-slate-200 p-4">
       <InputCondition
         title="法令ID"
         name="law_id"

@@ -42,11 +42,11 @@ export default function RootLayout({
           <div className="grid grid-cols-[1fr_4fr] p-4 pr-0 h-screen gap-4">
             <div className="grid grid-rows-[2.5rem_1fr] gap-4">
               <div className="bg-slate-400 rounded-md" />
-              <div className="bg-slate-600 rounded-md" />
+              <div className="bg-slate-200 rounded-md" />
             </div>
             <div className="grid grid-rows-[2.5rem_1fr] gap-4 ">
               <div className="flex items-center rounded-md bg-slate-200 px-4">
-                <IoLayersOutline className="mr-2"/>
+                <IoLayersOutline className="mr-2" />
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
@@ -71,7 +71,7 @@ export default function RootLayout({
           <div className="rounded-md p-4 pl-0">
             <Tabs
               defaultValue="history"
-              className="w-full"
+              className="w-full h-full"
             >
               <TabsList>
                 <TabsTrigger value="history">改変履歴</TabsTrigger>
@@ -81,7 +81,7 @@ export default function RootLayout({
                 <TabContentDesign />
               </TabsContent>
               <TabsContent value="auxiliary">
-                Change your password here.
+                <TabContentDesign />
               </TabsContent>
             </Tabs>
           </div>
