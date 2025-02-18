@@ -1,4 +1,4 @@
-export const mock = 
+export const Mock = 
     {
         "attached_files_info": null,
         "law_info": {
@@ -36234,3 +36234,4 @@ export const mock =
           ]
         }
       }
+      export default Mock;
