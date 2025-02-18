@@ -32,18 +32,18 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={twMerge(
-          "antialiased font-noto-sans-jp",
+          "antialiased font-noto-sans-jp h-[100dvh] max-h-[100dvh]",
           notoSansJp.variable,
         )}
       >
-        <div className="grid grid-cols-[5fr_4fr] h-screen gap-4">
-          <div className="grid grid-cols-[1fr_4fr] p-4 pr-0 h-screen gap-4">
+        <div className="grid h-screen grid-cols-[5fr_4fr] gap-4">
+          <div className="grid h-screen grid-cols-[1fr_4fr] gap-4 p-4 pr-0">
             <div className="grid grid-rows-[2.5rem_1fr] gap-4">
-              <div className="bg-slate-400 rounded-md" />
-              <div className="bg-slate-600 rounded-md" />
+              <div className="rounded-md bg-slate-400" />
+              <div className="rounded-md bg-slate-400" />
             </div>
-            <div className="grid grid-rows-[2.5rem_1fr] gap-4 ">
-              <div className=" flex items-center rounded-md bg-slate-200 px-4">
+            <div className="grid grid-rows-[2.5rem_1fr] gap-4">
+              <div className="flex items-center rounded-md bg-slate-200 px-4">
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
@@ -60,7 +60,7 @@ export default function RootLayout({
                   </BreadcrumbList>
                 </Breadcrumb>
               </div>
-              <div className="bg-slate-400 max-h-[calc(100vh-5.5rem)] flex-col overflow-y-scroll rounded-md">
+              <div className="h-full max-h-full overflow-y-auto rounded-md bg-gray-100">
                 {children}
               </div>
             </div>

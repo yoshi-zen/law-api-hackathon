@@ -21,8 +21,8 @@ export const InputCalendarCondition: FC<Props> = (props: Props) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
 
   return (
-    <div className="flex flex-col gap-2 rounded-md bg-white px-4 py-4">
-      <p className="text-sm font-bold">{title}</p>
+    <div className="flex flex-col gap-2 rounded-md bg-white px-2 py-2">
+      <p className="text-xs font-semibold">{title}</p>
       <Popover
         open={isOpen}
         onOpenChange={setIsOpen}

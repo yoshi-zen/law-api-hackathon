@@ -31,7 +31,7 @@ export const searchConditions: SearchConditionsType[] = [
   },
   {
     title: "法令番号",
-    placeholder: "平成22年法律第16号",
+    placeholder: "昭和二十二年政令第十六号",
     name: "law_num",
     type: "input",
   },
@@ -44,7 +44,7 @@ export const searchConditions: SearchConditionsType[] = [
   },
   {
     title: "法令番号の号数",
-    placeholder: "16",
+    placeholder: "88",
     name: "law_num_num",
     type: "input",
   },
@@ -61,18 +61,18 @@ export const searchConditions: SearchConditionsType[] = [
     name: "law_num_year",
     type: "input",
   },
-  {
-    title: "法令名又は法令略称（部分一致）",
-    placeholder: "選択してください",
-    name: "law_title",
-    type: "input",
-  },
-  {
-    title: "法令かな読み（部分一致）",
-    placeholder: "選択してください",
-    name: "law_title_kana",
-    type: "input",
-  },
+  // {
+  //   title: "法令名又は法令略称（部分一致）",
+  //   placeholder: "選択してください",
+  //   name: "law_title",
+  //   type: "input",
+  // },
+  // {
+  //   title: "法令かな読み（部分一致）",
+  //   placeholder: "選択してください",
+  //   name: "law_title_kana",
+  //   type: "input",
+  // },
   {
     title: "法令種別（複数指定可）",
     placeholder: "選択してください",
@@ -82,14 +82,8 @@ export const searchConditions: SearchConditionsType[] = [
   },
   {
     title: "改正法令の法令ID（部分一致）",
-    placeholder: "選択してください",
+    placeholder: "429AC0000000054",
     name: "amendment_law_id",
-    type: "input",
-  },
-  {
-    title: "改正法令の法令番号（部分一致）",
-    placeholder: "選択してください",
-    name: "amendment_law_num",
     type: "input",
   },
   {
@@ -137,10 +131,10 @@ export const searchConditions: SearchConditionsType[] = [
     name: "limit",
     type: "input",
   },
-  {
-    title: "取得開始位置",
-    placeholder: "選択してください",
-    name: "offset",
-    type: "input",
-  },
+  // {
+  //   title: "取得開始位置",
+  //   placeholder: "選択してください",
+  //   name: "offset",
+  //   type: "input",
+  // },
 ];
