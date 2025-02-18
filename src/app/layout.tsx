@@ -3,11 +3,10 @@ import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import TabContentDesign from "@/components/page/tab-content-design";
 
+import { AppSidebar } from "@/components/page/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/page/app-sidebar"
 import { twMerge } from "tailwind-merge";
-
 
 const notoSansJp = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -39,7 +38,7 @@ export default function RootLayout({
             <div className="w-[calc(100vw-16rem)] relative grid grid-cols-2 h-screen gap-4">
               <div className="grid p-4 pr-0 h-screen gap-4">
                 <div className="grid grid-rows-[2.5rem_1fr] gap-4 ">
-                  <div className="flex items-center rounded-md px-4"/>
+                  <div className="flex items-center rounded-md px-4" />
                   <div className="bg-slate-400 max-h-[calc(100vh-5.5rem)] flex-col overflow-y-scroll rounded-md">
                     {children}
                   </div>

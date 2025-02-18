@@ -116,7 +116,7 @@ export const MockSchema = z.object({
       ]),
     }),
     // 法令本文。law_full_text_format と response_format が異なる場合は string 型、それ以外は object 型で返却
-    law_full_text: MockFullTextSchema
+    law_full_text: MockFullTextSchema,
   }),
 });
 
