@@ -22,7 +22,7 @@ export const InputConditionList = () => {
   const [message, formAction, isPending] = useActionState(fetchLawList, null);
 
   /** 開かれているAccordionItemの識別 */
-  const [openingAccordionItem, setOpeningAccordionItem] = useState("search");
+  const [openingAccordionItem, setOpeningAccordionItem] = useState("");
 
   /** Accordionの開閉状態を変更する関数 */
   const onValueChange = useCallback((value: string) => {
@@ -34,17 +34,17 @@ export const InputConditionList = () => {
   };
 
   return (
-    <form action={formAction}>
-      <div className="flex flex-col items-center gap-4 overflow-y-auto p-4">
-        <div className="flex w-full flex-col gap-2">
-          <h2 className="self-start font-bold">法令検索</h2>
-          <Accordion
-            type="single"
-            collapsible
-            value={openingAccordionItem}
-            onValueChange={onValueChange}
-          >
-            <AccordionItem value="search">
+    <div className="flex flex-col items-center gap-4 p-4">
+      <div className="flex w-full flex-col gap-2">
+        <h2 className="self-start font-bold">法令検索</h2>
+        <Accordion
+          type="single"
+          collapsible
+          value={openingAccordionItem}
+          onValueChange={onValueChange}
+        >
+          <AccordionItem value="search">
+            <form action={formAction}>
               <div className="grid w-full grid-cols-[1fr_auto] gap-2">
                 <div className="relative grid w-full grid-cols-[1fr_auto]">
                   <Input
@@ -113,10 +113,10 @@ export const InputConditionList = () => {
                   })}
                 </div>
               </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
+            </form>
+          </AccordionItem>
+        </Accordion>
       </div>
-    </form>
+    </div>
   );
 };
