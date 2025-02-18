@@ -56,7 +56,7 @@ export function getIndentedTexts(item: MenuItem, level = 0): string[] {
 function MenuItemComponent({
   item,
   level = 0,
-}: { item: MenuItem; level?: number }): JSX.Element {
+}: { item: MenuItem; level?: number }): React.ReactElement {
   // 特殊タグの場合、子要素を表示せず、親タグのみを表示する
   if (["TOC", "MainProvision", "SupplProvision"].includes(item.tag)) {
     return (
