@@ -43,7 +43,10 @@ export const SelectCondition: FC<Props> = (props: Props) => {
             variant="outline"
             role="combobox"
             aria-expanded={isOpen}
-            className="flex h-8 w-full items-center justify-between"
+            className={twMerge(
+              "flex h-8 w-full items-center justify-between font-medium",
+              label ? "text-gray-900" : "text-gray-500",
+            )}
           >
             {label ?? "選択してください"}
             <ChevronsUpDown className="text-gray-500" />

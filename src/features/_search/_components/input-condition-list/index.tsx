@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {} from "lucide-react";
-import { useActionState, useState } from "react";
+import { useActionState, useCallback, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { fetchLawList } from "../../_actions/fetch-laws";
 import { searchConditions } from "../../_consts/search-condition-list";
@@ -21,9 +21,16 @@ import { SelectCondition } from "../select-condition";
 export const InputConditionList = () => {
   const [message, formAction, isPending] = useActionState(fetchLawList, null);
 
-  const [isDetailSearch, setIsDetailSearch] = useState(false);
-  const handleDetailSearch = () => {
-    setIsDetailSearch((prev) => !prev);
+  /** 開かれているAccordionItemの識別 */
+  const [openingAccordionItem, setOpeningAccordionItem] = useState("search");
+
+  /** Accordionの開閉状態を変更する関数 */
+  const onValueChange = useCallback((value: string) => {
+    setOpeningAccordionItem(value);
+  }, []);
+
+  const handleCloseAccordion = () => {
+    setOpeningAccordionItem("");
   };
 
   return (
@@ -34,6 +41,8 @@ export const InputConditionList = () => {
           <Accordion
             type="single"
             collapsible
+            value={openingAccordionItem}
+            onValueChange={onValueChange}
           >
             <AccordionItem value="search">
               <div className="grid w-full grid-cols-[1fr_auto] gap-2">
@@ -41,29 +50,28 @@ export const InputConditionList = () => {
                   <Input
                     name="law_title"
                     placeholder="例：個人情報保護法"
-                    className="mb-2 h-10 rounded-r-none"
+                    className="z-10 mb-2 h-10 rounded-r-none"
                   />
                   <AccordionTrigger
                     className={twMerge(
                       "flex gap-2 cursor-pointer h-10 items-center justify-center rounded-r-md font-bold text-sm border border-l-0 duration-150 px-3",
-                      isDetailSearch
+                      openingAccordionItem === "search"
                         ? "text-white bg-gray-600"
                         : "text-gray-600 bg-white",
                     )}
-                    onClick={handleDetailSearch}
                   >
                     詳細検索
                   </AccordionTrigger>
                 </div>
                 <Button
                   type="submit"
-                  onClick={() => setIsDetailSearch(false)}
+                  onClick={handleCloseAccordion}
                 >
                   検索
                 </Button>
               </div>
               <AccordionContent>
-                <div className="grid w-full grid-cols-3 gap-1 overflow-scroll py-4">
+                <div className="grid w-full grid-cols-3 gap-1 overflow-scroll pt-4">
                   {searchConditions.map((cond, idx) => {
                     switch (cond.type) {
                       case "input":

@@ -36,14 +36,14 @@ export default function RootLayout({
           notoSansJp.variable,
         )}
       >
-        <div className="grid h-screen grid-cols-[5fr_4fr] gap-4">
-          <div className="grid h-screen grid-cols-[1fr_4fr] gap-4 p-4 pr-0">
-            <div className="grid grid-rows-[2.5rem_1fr] gap-4">
+        <div className="grid h-screen grid-cols-[5fr_4fr] gap-2">
+          <div className="grid h-screen grid-cols-[1fr_4fr] gap-2 p-2 pr-0">
+            <div className="grid grid-rows-[2.5rem_1fr] gap-2">
               <div className="rounded-md bg-slate-400" />
               <div className="rounded-md bg-slate-400" />
             </div>
-            <div className="grid grid-rows-[2.5rem_1fr] gap-4">
-              <div className="flex items-center rounded-md bg-slate-200 px-4">
+            <div className="grid grid-rows-[2.5rem_1fr] gap-2">
+              <div className="flex items-center rounded-md bg-slate-200 px-2">
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
