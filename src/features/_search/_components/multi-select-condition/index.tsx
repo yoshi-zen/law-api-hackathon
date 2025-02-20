@@ -39,8 +39,8 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col gap-2 rounded-md bg-white px-4 py-4">
-      <p>{title}</p>
+    <div className="col-span-2 flex flex-col gap-2 rounded-md bg-white px-3 py-3">
+      <p className="text-xs font-semibold">{title}</p>
       <Popover
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -50,9 +50,9 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
             variant="outline"
             role="combobox"
             aria-expanded={isOpen}
-            className="flex w-full items-center justify-between"
+            className="flex h-fit w-full items-center justify-between"
           >
-            <div className="flex items-center gap-1">
+            <div className="flex grid-cols-2 flex-wrap items-center gap-1">
               {labels
                 ? options
                     .filter((option) => labels.includes(option.label))
@@ -82,7 +82,7 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
         </PopoverTrigger>
         <PopoverContent>
           <Command>
-            <CommandInput placeholder="法令種別を検索..." />
+            <CommandInput placeholder="検索..." />
             <CommandList>
               <CommandEmpty>検索結果がありません</CommandEmpty>
               <CommandGroup>

@@ -31,7 +31,7 @@ export const searchConditions: SearchConditionsType[] = [
   },
   {
     title: "法令番号",
-    placeholder: "平成22年法律第16号",
+    placeholder: "昭和二十二年政令第十六号",
     name: "law_num",
     type: "input",
   },
@@ -44,7 +44,7 @@ export const searchConditions: SearchConditionsType[] = [
   },
   {
     title: "法令番号の号数",
-    placeholder: "16",
+    placeholder: "88",
     name: "law_num_num",
     type: "input",
   },
@@ -61,18 +61,18 @@ export const searchConditions: SearchConditionsType[] = [
     name: "law_num_year",
     type: "input",
   },
-  {
-    title: "法令名又は法令略称（部分一致）",
-    placeholder: "選択してください",
-    name: "law_title",
-    type: "input",
-  },
-  {
-    title: "法令かな読み（部分一致）",
-    placeholder: "選択してください",
-    name: "law_title_kana",
-    type: "input",
-  },
+  // {
+  //   title: "法令名又は法令略称（部分一致）",
+  //   placeholder: "選択してください",
+  //   name: "law_title",
+  //   type: "input",
+  // },
+  // {
+  //   title: "法令かな読み（部分一致）",
+  //   placeholder: "選択してください",
+  //   name: "law_title_kana",
+  //   type: "input",
+  // },
   {
     title: "法令種別（複数指定可）",
     placeholder: "選択してください",
@@ -82,21 +82,9 @@ export const searchConditions: SearchConditionsType[] = [
   },
   {
     title: "改正法令の法令ID（部分一致）",
-    placeholder: "選択してください",
+    placeholder: "429AC0000000054",
     name: "amendment_law_id",
     type: "input",
-  },
-  {
-    title: "改正法令の法令番号（部分一致）",
-    placeholder: "選択してください",
-    name: "amendment_law_num",
-    type: "input",
-  },
-  {
-    title: "改正法令の施行日",
-    placeholder: "選択してください",
-    name: "asof",
-    type: "calendar",
   },
   {
     title: "事項別法令分類コード（複数指定可）",
@@ -106,11 +94,24 @@ export const searchConditions: SearchConditionsType[] = [
     options: categoryCdLabelMap,
   },
   {
+    title: "改正法令の施行日",
+    placeholder: "選択してください",
+    name: "asof",
+    type: "calendar",
+  },
+  {
     title: "新規制定又は被改正法令・一部改正法令を指定（複数指定可）",
     placeholder: "選択してください",
     name: "mission",
     type: "multi-select",
     options: missionListMap,
+  },
+  {
+    title: "廃止等の状態",
+    placeholder: "選択してください",
+    name: "repeal_status",
+    type: "select",
+    options: repealStatusListMap,
   },
   {
     title: "公布日(この日以降) ",
@@ -125,22 +126,15 @@ export const searchConditions: SearchConditionsType[] = [
     type: "calendar",
   },
   {
-    title: "廃止等の状態",
-    placeholder: "選択してください",
-    name: "repeal_status",
-    type: "select",
-    options: repealStatusListMap,
-  },
-  {
     title: "取得上限値",
     placeholder: "選択してください",
     name: "limit",
     type: "input",
   },
-  {
-    title: "取得開始位置",
-    placeholder: "選択してください",
-    name: "offset",
-    type: "input",
-  },
+  // {
+  //   title: "取得開始位置",
+  //   placeholder: "選択してください",
+  //   name: "offset",
+  //   type: "input",
+  // },
 ];

@@ -2,15 +2,9 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import TabContentDesign from "@/components/page/tab-content-design";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+
+import { BreadCrumb } from "@/components/breadcrumbs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Slash } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
 const notoSansJp = Noto_Sans_JP({
@@ -32,40 +26,16 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={twMerge(
-          "antialiased font-noto-sans-jp",
+          "antialiased font-noto-sans-jp h-[100dvh] max-h-[100dvh]",
           notoSansJp.variable,
         )}
       >
-        <div className="grid grid-cols-[5fr_4fr] h-screen gap-4">
-          <div className="grid grid-cols-[1fr_4fr] p-4 pr-0 h-screen gap-4">
-            <div className="grid grid-rows-[2.5rem_1fr] gap-4">
-              <div className="bg-slate-400 rounded-md" />
-              <div className="bg-slate-600 rounded-md" />
-            </div>
-            <div className="grid grid-rows-[2.5rem_1fr] gap-4 ">
-              <div className=" flex items-center rounded-md bg-slate-200 px-4">
-                <Breadcrumb>
-                  <BreadcrumbList>
-                    <BreadcrumbItem>
-                      <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator>
-                      <Slash />
-                    </BreadcrumbSeparator>
-                    <BreadcrumbItem>
-                      <BreadcrumbLink href="/components">
-                        Components
-                      </BreadcrumbLink>
-                    </BreadcrumbItem>
-                  </BreadcrumbList>
-                </Breadcrumb>
-              </div>
-              <div className="bg-slate-400 max-h-[calc(100vh-5.5rem)] flex-col overflow-y-scroll rounded-md">
-                {children}
-              </div>
-            </div>
+        <div className="grid h-[100dvh] max-h-[100dvh] grid-cols-[1fr_4fr_4fr] grid-rows-[2.5rem_1fr] gap-2 p-2">
+          <div className="rounded-md bg-slate-400" />
+          <div className="flex items-center rounded-md bg-slate-200 px-2">
+            <BreadCrumb />
           </div>
-          <div className="rounded-md p-4 pl-0">
+          <div className="row-span-2 rounded-md">
             <Tabs
               defaultValue="history"
               className="w-full"
@@ -81,6 +51,10 @@ export default function RootLayout({
                 Change your password here.
               </TabsContent>
             </Tabs>
+          </div>
+          <div className="rounded-md bg-slate-500" />
+          <div className="h-full overflow-y-scroll rounded-md bg-gray-100">
+            {children}
           </div>
         </div>
       </body>

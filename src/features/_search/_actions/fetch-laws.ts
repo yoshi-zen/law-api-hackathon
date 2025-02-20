@@ -1,25 +1,48 @@
 "use server";
 
-import { ErrorInfoSchema } from "../_types/_common/error-info";
-import { LawsResponseSchema } from "../_types/_common/laws-response";
+import {
+  ErrorInfoSchema,
+  type ErrorInfoType,
+} from "../_types/_common/error-info";
+import {
+  LawsResponseSchema,
+  type LawsResponseType,
+} from "../_types/_common/laws-response";
 import { SchemaFetchLaws } from "../_types/_custom/schema-fetch-laws";
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export const fetchLawList = async (_prevState: any, formData: FormData) => {
+export type FetchLawsResponse =
+  | {
+      status: "error";
+      timeStamp: number;
+      errorInfo: ErrorInfoType;
+    }
+  | {
+      status: "success";
+      timeStamp: number;
+      lawsResponse: LawsResponseType;
+    };
+
+const errorInfoCommon: ErrorInfoType = {
+  code: "INVALID_FORM_DATA",
+  message: "エラーが発生しました",
+};
+
+export const fetchLawList = async (
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  _prevState: any,
+  formData: FormData,
+): Promise<FetchLawsResponse> => {
   const obj = Object.fromEntries(formData);
 
   const result = SchemaFetchLaws.safeParse(obj);
 
   if (!result.success) {
     const timeStamp = Date.now();
-    console.log(result.error);
+
     return {
-      toast: {
-        status: "error",
-        message: "入力内容に誤りがあります",
-        timeStamp: timeStamp,
-      },
-      laws: null,
+      status: "error",
+      timeStamp: timeStamp,
+      errorInfo: errorInfoCommon,
     };
   }
 
@@ -45,50 +68,42 @@ export const fetchLawList = async (_prevState: any, formData: FormData) => {
 
   const response = await fetch(`${apiEndpoint}/laws?${query}`);
 
+  // fetch時の500エラーなどの処理
   if (!response.ok) {
     return {
-      toast: {
-        status: "error",
-        message: "エラーが発生しました",
-        timeStamp: Date.now(),
-      },
+      status: "error",
+      timeStamp: Date.now(),
+      errorInfo: errorInfoCommon,
     };
   }
 
   const json = await response.json();
 
-  console.log(JSON.stringify(json, null, 2));
+  // console.log(JSON.stringify(json, null, 2));
 
   const parsedJson = LawsResponseSchema.safeParse(json);
   if (parsedJson.success) {
-    console.log(parsedJson.data.laws);
+    // console.log(parsedJson.data.laws);
     return {
-      toast: {
-        status: "success",
-        message: "取得しました",
-        timeStamp: Date.now(),
-      },
-      laws: parsedJson.data.laws,
+      status: "success",
+      timeStamp: Date.now(),
+      lawsResponse: parsedJson.data,
     };
   }
-  console.log(parsedJson.error);
+  // console.log(parsedJson.error);
 
   const errorJson = ErrorInfoSchema.safeParse(json);
   if (errorJson.success) {
     return {
-      toast: {
-        status: "error",
-        message: errorJson.data.message,
-        timeStamp: Date.now(),
-      },
+      status: "error",
+      timeStamp: Date.now(),
+      errorInfo: errorJson.data,
     };
   }
 
   return {
-    toast: {
-      status: "error",
-      message: "エラーが発生しました",
-      timeStamp: Date.now(),
-    },
+    status: "error",
+    timeStamp: Date.now(),
+    errorInfo: errorInfoCommon,
   };
 };
