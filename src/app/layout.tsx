@@ -6,8 +6,9 @@ import TabContentDesign from "@/components/page/tab-content-design";
 import { AppSidebar } from "@/components/page/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
+import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/tabs";
+import { TabsList } from "@radix-ui/react-tabs";
 // import { BreadCrumb } from "@/components/breadcrumbs";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { twMerge } from "tailwind-merge";
 
 const notoSansJp = Noto_Sans_JP({
@@ -35,37 +36,33 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSidebar />
-          <Tabs
-            defaultValue="history"
-            className="w-screen"
-          >
-            <div className="grid h-screen w-full grid-cols-[5fr_4fr] grid-rows-[2.5em_1fr] gap-2 p-2">
-              <div className="flex items-center rounded-md">
-                {/* <BreadCrumb /> */}
-                <SidebarTrigger className="m-0" />
-              </div>
-              <TabsList className="justify-start">
+          <div className="grid h-screen w-full grid-cols-[5fr_4fr] grid-rows-[2.5em_1fr] gap-2 p-2">
+            <div className="flex items-center rounded-md">
+              {/* <BreadCrumb /> */}
+              <SidebarTrigger className="m-0" />
+            </div>
+            <Tabs className="row-span-2 grid grid-rows-[2.5em_1fr] gap-2">
+              <TabsList className="justify-start rounded-md bg-gray-200 p-1">
                 <TabsTrigger value="history">改変履歴</TabsTrigger>
                 <TabsTrigger value="auxiliary">AI補助</TabsTrigger>
               </TabsList>
-
-              <div className="flex-col overflow-y-scroll rounded-md bg-gray-100">
-                {children}
-                <div className="h-[999px]">a</div>
-              </div>
-              <div className="rounded-md bg-gray-200">
-                <TabsContent
-                  value="history"
-                  className="mt-2 rounded-md"
-                >
-                  <TabContentDesign />
-                </TabsContent>
-                <TabsContent value="auxiliary">
-                  Change your password here.
-                </TabsContent>
-              </div>
+              <TabsContent
+                value="history"
+                className="mt-0 h-full rounded-md bg-gray-200"
+              >
+                <TabContentDesign />
+              </TabsContent>
+              <TabsContent
+                value="auxiliary"
+                className="mt-0 h-full rounded-md"
+              >
+                Change your password here.
+              </TabsContent>
+            </Tabs>
+            <div className="flex-col overflow-y-scroll rounded-md bg-gray-100">
+              {children}
             </div>
-          </Tabs>
+          </div>
         </SidebarProvider>
       </body>
     </html>
