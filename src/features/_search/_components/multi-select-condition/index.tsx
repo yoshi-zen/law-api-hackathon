@@ -70,6 +70,14 @@ export const MultiSelectCondition: FC<Props> = (props: Props) => {
                             e.stopPropagation();
                             handleRemoveLabel(option.label);
                           }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.stopPropagation();
+                              handleRemoveLabel(option.label);
+                            }
+                          }}
+                          role="button"
+                          tabIndex={0}
                         >
                           <CircleX className="h-1 w-1" />
                         </div>
