@@ -87,12 +87,6 @@ export const searchConditions: SearchConditionsType[] = [
     type: "input",
   },
   {
-    title: "改正法令の施行日",
-    placeholder: "選択してください",
-    name: "asof",
-    type: "calendar",
-  },
-  {
     title: "事項別法令分類コード（複数指定可）",
     placeholder: "選択してください",
     name: "category_cd",
@@ -100,11 +94,24 @@ export const searchConditions: SearchConditionsType[] = [
     options: categoryCdLabelMap,
   },
   {
+    title: "改正法令の施行日",
+    placeholder: "選択してください",
+    name: "asof",
+    type: "calendar",
+  },
+  {
     title: "新規制定又は被改正法令・一部改正法令を指定（複数指定可）",
     placeholder: "選択してください",
     name: "mission",
     type: "multi-select",
     options: missionListMap,
+  },
+  {
+    title: "廃止等の状態",
+    placeholder: "選択してください",
+    name: "repeal_status",
+    type: "select",
+    options: repealStatusListMap,
   },
   {
     title: "公布日(この日以降) ",
@@ -117,13 +124,6 @@ export const searchConditions: SearchConditionsType[] = [
     placeholder: "選択してください",
     name: "promulgation_date_to",
     type: "calendar",
-  },
-  {
-    title: "廃止等の状態",
-    placeholder: "選択してください",
-    name: "repeal_status",
-    type: "select",
-    options: repealStatusListMap,
   },
   {
     title: "取得上限値",

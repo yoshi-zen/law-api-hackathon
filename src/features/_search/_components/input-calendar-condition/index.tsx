@@ -30,7 +30,7 @@ export const InputCalendarCondition: FC<Props> = (props: Props) => {
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="h-8 w-full justify-start font-normal"
+            className="h-5 w-full justify-start text-2xs font-normal"
           >
             {date ? format(date, "yyyy-MM-dd") : "選択してください"}
           </Button>

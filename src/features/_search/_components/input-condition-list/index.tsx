@@ -8,11 +8,12 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {} from "lucide-react";
+import { Loader } from "lucide-react";
 import { useActionState, useCallback, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { fetchLawList } from "../../_actions/fetch-laws";
 import { searchConditions } from "../../_consts/search-condition-list";
+import { ContainerResult } from "../container-result";
 import { InputCalendarCondition } from "../input-calendar-condition";
 import { InputCondition } from "../input-condition";
 import { MultiSelectCondition } from "../multi-select-condition";
@@ -34,89 +35,95 @@ export const InputConditionList = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 p-4">
-      <div className="flex w-full flex-col gap-2">
-        <h2 className="self-start font-bold">法令検索</h2>
-        <Accordion
-          type="single"
-          collapsible
-          value={openingAccordionItem}
-          onValueChange={onValueChange}
-        >
-          <AccordionItem value="search">
-            <form action={formAction}>
-              <div className="grid w-full grid-cols-[1fr_auto] gap-2">
-                <div className="relative grid w-full grid-cols-[1fr_auto]">
-                  <Input
-                    name="law_title"
-                    placeholder="例：個人情報保護法"
-                    className="z-10 mb-2 h-10 rounded-r-none"
-                  />
-                  <AccordionTrigger
-                    className={twMerge(
-                      "flex gap-2 cursor-pointer h-10 items-center justify-center rounded-r-md font-bold text-sm border border-l-0 duration-150 px-3",
-                      openingAccordionItem === "search"
-                        ? "text-white bg-gray-600"
-                        : "text-gray-600 bg-white",
-                    )}
-                  >
-                    詳細検索
-                  </AccordionTrigger>
-                </div>
-                <Button
-                  type="submit"
-                  onClick={handleCloseAccordion}
+    <div className="flex w-full flex-col items-center gap-2 p-4">
+      <h2 className="self-start font-bold">法令検索</h2>
+      <Accordion
+        type="single"
+        collapsible
+        value={openingAccordionItem}
+        onValueChange={onValueChange}
+        className="w-full"
+      >
+        <AccordionItem value="search">
+          <form action={formAction}>
+            <div className="grid w-full grid-cols-[1fr_auto] gap-2">
+              <div className="relative grid w-full grid-cols-[1fr_auto]">
+                <Input
+                  name="law_title"
+                  placeholder="例：個人情報保護法"
+                  className="z-10 mb-2 h-10 rounded-r-none"
+                />
+                <AccordionTrigger
+                  className={twMerge(
+                    "flex gap-2 cursor-pointer h-10 items-center justify-center rounded-r-md font-bold text-sm border border-l-0 duration-150 px-3",
+                    openingAccordionItem === "search"
+                      ? "text-white bg-gray-600"
+                      : "text-gray-600 bg-white",
+                  )}
                 >
-                  検索
-                </Button>
+                  詳細検索
+                </AccordionTrigger>
               </div>
-              <AccordionContent>
-                <div className="grid w-full grid-cols-3 gap-1 overflow-scroll pt-4">
-                  {searchConditions.map((cond, idx) => {
-                    switch (cond.type) {
-                      case "input":
-                        return (
-                          <InputCondition
-                            key={`${cond.name}-${idx}`}
-                            title={cond.title}
-                            placeholder={cond.placeholder}
-                            name={cond.name}
-                          />
-                        );
-                      case "select":
-                        return (
-                          <SelectCondition
-                            key={`${cond.name}-${idx}`}
-                            title={cond.title}
-                            name={cond.name}
-                            options={cond.options}
-                          />
-                        );
-                      case "multi-select":
-                        return (
-                          <MultiSelectCondition
-                            key={`${cond.name}-${idx}`}
-                            title={cond.title}
-                            name={cond.name}
-                            options={cond.options}
-                          />
-                        );
-                      case "calendar":
-                        return (
-                          <InputCalendarCondition
-                            key={`${cond.name}-${idx}`}
-                            title={cond.title}
-                            name={cond.name}
-                          />
-                        );
-                    }
-                  })}
-                </div>
-              </AccordionContent>
-            </form>
-          </AccordionItem>
-        </Accordion>
-      </div>
+              <Button
+                type="submit"
+                onClick={handleCloseAccordion}
+                disabled={isPending}
+                className="flex items-center gap-2"
+              >
+                検索
+                {isPending && <Loader className="h-4 w-4 animate-spin" />}
+              </Button>
+            </div>
+            <AccordionContent>
+              <div className="grid w-full grid-cols-3 gap-1 overflow-scroll pt-4">
+                {searchConditions.map((cond, idx) => {
+                  switch (cond.type) {
+                    case "input":
+                      return (
+                        <InputCondition
+                          key={`${cond.name}-${idx}`}
+                          title={cond.title}
+                          placeholder={cond.placeholder}
+                          name={cond.name}
+                        />
+                      );
+                    case "select":
+                      return (
+                        <SelectCondition
+                          key={`${cond.name}-${idx}`}
+                          title={cond.title}
+                          name={cond.name}
+                          options={cond.options}
+                        />
+                      );
+                    case "multi-select":
+                      return (
+                        <MultiSelectCondition
+                          key={`${cond.name}-${idx}`}
+                          title={cond.title}
+                          name={cond.name}
+                          options={cond.options}
+                        />
+                      );
+                    case "calendar":
+                      return (
+                        <InputCalendarCondition
+                          key={`${cond.name}-${idx}`}
+                          title={cond.title}
+                          name={cond.name}
+                        />
+                      );
+                  }
+                })}
+              </div>
+            </AccordionContent>
+          </form>
+        </AccordionItem>
+      </Accordion>
+      <ContainerResult
+        result={message}
+        isLoading={isPending}
+      />
     </div>
   );
 };

@@ -84,6 +84,13 @@ export const SelectCondition: FC<Props> = (props: Props) => {
           </Command>
         </PopoverContent>
       </Popover>
+      {label && (
+        <input
+          type="hidden"
+          value={options.find((option) => option.label === label)?.value}
+          {...selectProps}
+        />
+      )}
     </div>
   );
 };
