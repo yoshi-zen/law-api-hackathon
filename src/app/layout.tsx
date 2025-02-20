@@ -4,9 +4,9 @@ import "./globals.css";
 import TabContentDesign from "@/components/page/tab-content-design";
 
 import { AppSidebar } from "@/components/page/app-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-import { BreadCrumb } from "@/components/breadcrumbs";
+// import { BreadCrumb } from "@/components/breadcrumbs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { twMerge } from "tailwind-merge";
 
@@ -35,39 +35,37 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSidebar />
-          <div className="grid h-screen grid-cols-[5fr_4fr] gap-4">
-            <div className="grid h-screen grid-cols-[1fr_4fr] gap-4 p-4 pr-0">
-              <div className="grid grid-rows-[2.5rem_1fr] gap-4">
-                <div className="rounded-md bg-slate-400" />
-                <div className="rounded-md bg-slate-600" />
+          <Tabs
+            defaultValue="history"
+            className="w-screen"
+          >
+            <div className="grid h-screen w-full grid-cols-[5fr_4fr] grid-rows-[2.5em_1fr] gap-2 p-2">
+              <div className="flex items-center rounded-md">
+                {/* <BreadCrumb /> */}
+                <SidebarTrigger className="m-0" />
               </div>
-              <div className="grid grid-rows-[2.5rem_1fr] gap-4">
-                <div className="flex items-center rounded-md bg-slate-200 px-4">
-                  <BreadCrumb />
-                </div>
-                <div className="max-h-[calc(100vh-5.5rem)] flex-col overflow-y-scroll rounded-md bg-slate-400">
-                  {children}
-                </div>
+              <TabsList className="justify-start">
+                <TabsTrigger value="history">改変履歴</TabsTrigger>
+                <TabsTrigger value="auxiliary">AI補助</TabsTrigger>
+              </TabsList>
+
+              <div className="flex-col overflow-y-scroll rounded-md bg-gray-100">
+                {children}
+                <div className="h-[999px]">a</div>
               </div>
-            </div>
-            <div className="rounded-md p-4 pl-0">
-              <Tabs
-                defaultValue="history"
-                className="w-full"
-              >
-                <TabsList>
-                  <TabsTrigger value="history">改変履歴</TabsTrigger>
-                  <TabsTrigger value="auxiliary">AI補助</TabsTrigger>
-                </TabsList>
-                <TabsContent value="history">
+              <div className="rounded-md bg-gray-200">
+                <TabsContent
+                  value="history"
+                  className="mt-2 rounded-md"
+                >
                   <TabContentDesign />
                 </TabsContent>
                 <TabsContent value="auxiliary">
                   Change your password here.
                 </TabsContent>
-              </Tabs>
+              </div>
             </div>
-          </div>
+          </Tabs>
         </SidebarProvider>
       </body>
     </html>

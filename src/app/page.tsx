@@ -8,14 +8,12 @@ export default function Home() {
   const texts = getIndentedTexts(itemMock);
 
   return (
-    <main className="flex">
-      <div className="p-4">
-        {texts.map((text, index) => (
+    <main>
+      {/* {texts.map((text, index) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           <p key={index}>{text}</p>
-        ))}
-        <InputConditionList />
-      </div>
+        ))} */}
+      <InputConditionList />
     </main>
   );
 }

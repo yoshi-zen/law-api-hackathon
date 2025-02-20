@@ -130,7 +130,7 @@ function MenuItemComponent({
   );
 }
 
-export function AppSidebar() {
+export const AppSidebar = () => {
   // filteredItems: 特殊タグが出現したらそれ以降の項目を表示しない
   const filteredItems: MenuItem[] = [];
   for (const item of itemMock) {
@@ -162,4 +162,4 @@ export function AppSidebar() {
       </SidebarContent>
     </Sidebar>
   );
-}
+};
