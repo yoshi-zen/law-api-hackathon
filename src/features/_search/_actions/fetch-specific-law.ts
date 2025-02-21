@@ -28,16 +28,6 @@ export const fetchSpecificLaw = async (
   }
 
   const data = await response.json();
-  const parsedJson = LawDataResponseSchema.safeParse(data);
-
-  if (parsedJson.success) {
-    const timeStamp = Date.now();
-    return {
-      status: "success",
-      timeStamp: timeStamp,
-      data: parsedJson.data,
-    };
-  }
 
   const errorJson = ErrorInfoSchema.safeParse(data);
   if (errorJson.success) {
@@ -49,12 +39,23 @@ export const fetchSpecificLaw = async (
     };
   }
 
+  const parsedJson = LawDataResponseSchema.safeParse(data);
+
+  if (!parsedJson.success) {
+    const timeStamp = Date.now();
+    return {
+      status: "error",
+      timeStamp: timeStamp,
+      errorInfo: {
+        code: "TYPE_ERROR",
+        message: parsedJson.error.message,
+      },
+    };
+  }
+
   return {
-    status: "error",
+    status: "success",
     timeStamp: Date.now(),
-    errorInfo: {
-      code: "UNKNOWN_ERROR",
-      message: "不明なエラーが発生しました",
-    },
+    data: parsedJson.data,
   };
 };

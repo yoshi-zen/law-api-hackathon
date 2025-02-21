@@ -1,9 +1,12 @@
 "use client";
+
+import type { FullText } from "@/features/_search/_types/_common/law-data-response";
+import { specificLawAtom } from "@/jotai/atoms";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+} from "components/ui/collapsible";
 import {
   Sidebar,
   SidebarContent,
@@ -14,9 +17,11 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
-import { Mock } from "@/features/_search/_mock/mock-data";
+} from "components/ui/sidebar";
+import { Mock } from "features/_search/_mock/mock-data";
+import { useAtomValue } from "jotai";
 import { ChevronDown, Folder, Text } from "lucide-react";
+import type { FC, ReactNode } from "react";
 
 // JSONサンプルに合わせた型定義
 interface MenuItem {
@@ -56,12 +61,12 @@ export function getIndentedTexts(item: MenuItem, level = 0): string[] {
 function MenuItemComponent({
   item,
   level = 0,
-}: { item: MenuItem; level?: number }): React.ReactElement {
+}: { item: MenuItem; level?: number }): ReactNode {
   // 特殊タグの場合、子要素を表示せず、親タグのみを表示する
   if (["TOC", "MainProvision", "SupplProvision"].includes(item.tag)) {
     return (
       <SidebarMenuItem>
-        <span>{item.tag}</span>
+        <span className="text-xs">{item.tag}AAA</span>
       </SidebarMenuItem>
     );
   }
@@ -75,7 +80,7 @@ function MenuItemComponent({
       <>
         {item.children.map((child, index) => (
           <SidebarMenuItem key={`${item.tag}-child-${index}`}>
-            <span>{" ".repeat(level * 2) + child}</span>
+            <span className="text-xs">{" ".repeat(level * 2) + child}</span>
           </SidebarMenuItem>
         ))}
       </>
@@ -89,32 +94,32 @@ function MenuItemComponent({
           <SidebarMenuSubItem>
             <SidebarMenuButton className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Folder />
-                <span>{item.tag}</span>
+                <Folder size={14} />
+                <span className="text-xs">{item.tag}</span>
               </div>
               <ChevronDown className="transition-transform duration-200" />
             </SidebarMenuButton>
           </SidebarMenuSubItem>
         </CollapsibleTrigger>
-        <CollapsibleContent>
+        <CollapsibleContent className="px-0">
           <SidebarMenuSub className="ml-4">
             {item.children.map((child, index) => {
               if (typeof child === "string") {
                 return (
                   <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
-                    <span>{" ".repeat((level + 1) * 2) + child}</span>
+                    <span className="text-xs">
+                      {" ".repeat((level + 1) * 2) + child}
+                    </span>
                   </SidebarMenuItem>
                 );
-                // biome-ignore lint/style/noUselessElse: <explanation>
-              } else {
-                return (
-                  <MenuItemComponent
-                    key={`${child.tag}-${index}`}
-                    item={child}
-                    level={level + 1}
-                  />
-                );
               }
+              return (
+                <MenuItemComponent
+                  key={`${child.tag}-${index}`}
+                  item={child}
+                  level={level + 1}
+                />
+              );
             })}
           </SidebarMenuSub>
         </CollapsibleContent>
@@ -124,16 +129,38 @@ function MenuItemComponent({
   // children がない場合は、tag を表示
   return (
     <SidebarMenuItem>
-      <Text />
-      <span>{item.tag}</span>
+      <Text size={14} />
+      <span className="text-xs">{item.tag}</span>
     </SidebarMenuItem>
   );
 }
 
-export const AppSidebar = () => {
+export const AppSidebar: FC = () => {
+  const specificLaw = useAtomValue(specificLawAtom);
+
+  if (!specificLaw) {
+    return (
+      <Sidebar collapsible="offcanvas">
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>法令検索</SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+    );
+  }
+  const lawData = specificLaw?.law_full_text.children ?? [""];
+  // console.log(lawData);
+
   // filteredItems: 特殊タグが出現したらそれ以降の項目を表示しない
-  const filteredItems: MenuItem[] = [];
-  for (const item of itemMock) {
+  const filteredItems: FullText[] = [];
+  for (const item of lawData) {
+    if (typeof item === "string") {
+      filteredItems.push({ tag: "string", attr: {}, children: [item] });
+      continue;
+    }
     filteredItems.push(item);
     if (
       ["TOCLabel", "TOCChapter", "MainProvision", "SupplProvision"].includes(

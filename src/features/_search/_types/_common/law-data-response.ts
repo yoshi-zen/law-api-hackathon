@@ -4,6 +4,23 @@ import { LawInfoSchema } from "./law-info";
 import { RevisionInfoSchema } from "./revision-info";
 
 /**
+ * 法令フルテキストの再帰定義されたスキーマ
+ * 遅延評価により表現
+ */
+const baseFullTextSchema = z.object({
+  tag: z.string(),
+  attr: z.object({}).passthrough(),
+});
+
+export type FullText = z.infer<typeof baseFullTextSchema> & {
+  children?: Array<FullText | string>;
+};
+
+const fullTextSchema: z.ZodType<FullText> = baseFullTextSchema.extend({
+  children: z.lazy(() => z.array(z.union([fullTextSchema, z.string()]))),
+});
+
+/**
  * 法令データのレスポンスを指す。
  * - attached_file_info: 添付ファイル情報
  * - law_info: 法令情報
@@ -11,10 +28,10 @@ import { RevisionInfoSchema } from "./revision-info";
  * - law_full_text: 法令全文
  */
 export const LawDataResponseSchema = z.object({
-  attached_file_info: AttachedFilesInfoSchema,
+  attached_file_info: AttachedFilesInfoSchema.optional(),
   law_info: LawInfoSchema,
   revision_info: RevisionInfoSchema,
-  law_full_text: z.object({}).passthrough(), // TODO: もう少し強めたいが、どんなオブジェクトでも入るようにした
+  law_full_text: fullTextSchema, // TODO: もう少し強めたいが、どんなオブジェクトでも入るようにした
 });
 
 export type LawDataResponseType = z.infer<typeof LawDataResponseSchema>;

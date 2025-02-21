@@ -1,5 +1,5 @@
 "use client";
-import { getIndentedTexts } from "@/components/page/app-sidebar";
+import { getIndentedTexts } from "@/components/sidebar";
 import { InputConditionList } from "@/features/_search/_components/input-condition-list";
 import { Mock } from "@/features/_search/_mock/mock-data";
 

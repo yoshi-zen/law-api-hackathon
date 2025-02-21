@@ -12,7 +12,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import { specificLawAtom } from "@/jotai/atoms";
+import { useAtom } from "jotai";
 import type { FC } from "react";
+import { fetchSpecificLaw } from "../../_actions/fetch-specific-law";
 import type { LawsResponseType } from "../../_types/_common/laws-response";
 
 type Props = {
@@ -21,6 +25,27 @@ type Props = {
 
 export const DialogSelectLaw: FC<Props> = (props: Props) => {
   const { law } = props;
+
+  const [specificLaw, setSpecificLaw] = useAtom(specificLawAtom);
+
+  const handleAccept = async () => {
+    const specificLaw = await fetchSpecificLaw(law.law_info.law_id);
+
+    // console.log(specificLaw, null, 2);
+    if (specificLaw.status === "success") {
+      setSpecificLaw(specificLaw.data);
+      toast({
+        title: "法律を選択しました",
+      });
+      return;
+    }
+
+    toast({
+      title: "法律の取得に失敗しました。",
+      description:
+        specificLaw.status === "error" && specificLaw.errorInfo.message,
+    });
+  };
 
   return (
     <AlertDialog>
@@ -43,7 +68,7 @@ export const DialogSelectLaw: FC<Props> = (props: Props) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>キャンセル</AlertDialogCancel>
-          <AlertDialogAction>選択する</AlertDialogAction>
+          <AlertDialogAction onClick={handleAccept}>選択する</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

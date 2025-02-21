@@ -3,10 +3,11 @@ import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import TabContentDesign from "@/components/page/tab-content-design";
 
-import { AppSidebar } from "@/components/page/app-sidebar";
+import { AppSidebar } from "@/components/sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/tabs";
+import { Toaster } from "@/components/ui/toaster";
 import { TabsList } from "@radix-ui/react-tabs";
 // import { BreadCrumb } from "@/components/breadcrumbs";
 import { twMerge } from "tailwind-merge";
@@ -64,6 +65,7 @@ export default function RootLayout({
             </div>
           </div>
         </SidebarProvider>
+        <Toaster />
       </body>
     </html>
   );
