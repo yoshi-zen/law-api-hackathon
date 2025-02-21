@@ -29,6 +29,7 @@ export const DialogSelectLaw: FC<Props> = (props: Props) => {
           type="button"
           className="h-fit w-full py-1 text-xs"
           variant="default"
+          disabled={law.current_revision_info.repeal_status !== "None"}
         >
           この法律を選択
         </Button>

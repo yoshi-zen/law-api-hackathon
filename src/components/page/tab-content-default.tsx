@@ -2,13 +2,11 @@ import { Scale } from "lucide-react";
 
 export default function TabContentDefault() {
   return (
-    <main className=" relative h-full">
-      <div className="flex flex-col justify-center items-center w-full h-full">
-        <div className="text-[200%] mb-4">
-          <Scale />
-        </div>
-        <div>法令を指定してください</div>
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      <div className="mb-4 text-[200%]">
+        <Scale />
       </div>
-    </main>
+      <div>法令を指定してください</div>
+    </div>
   );
 }
