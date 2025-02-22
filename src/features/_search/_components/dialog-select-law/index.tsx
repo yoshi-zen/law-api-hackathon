@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { specificLawAtom } from "@/jotai/atoms";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import type { FC } from "react";
 import { fetchSpecificLaw } from "../../_actions/fetch-specific-law";
 import type { LawsResponseType } from "../../_types/_common/laws-response";
@@ -26,12 +26,11 @@ type Props = {
 export const DialogSelectLaw: FC<Props> = (props: Props) => {
   const { law } = props;
 
-  const [specificLaw, setSpecificLaw] = useAtom(specificLawAtom);
+  const setSpecificLaw = useSetAtom(specificLawAtom);
 
   const handleAccept = async () => {
     const specificLaw = await fetchSpecificLaw(law.law_info.law_id);
 
-    // console.log(specificLaw, null, 2);
     if (specificLaw.status === "success") {
       setSpecificLaw(specificLaw.data);
       toast({

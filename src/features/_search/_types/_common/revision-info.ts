@@ -20,7 +20,7 @@ export const RevisionInfoSchema = z.object({
       "有効な日時形式ではありません",
     )
     .nullable(), // TODO: 仕様書にはない仕様。なぜかnull。
-  amendment_promulgate_date: z.string().date(),
+  amendment_promulgate_date: z.string().date().nullable(),
   amendment_enforcement_date: z.string().date(),
   amendment_enforcement_comment: z.string().nullable(), // TODO: 仕様書にはない仕様。なぜかnull。
   amendment_scheduled_enforcement_date: z.string().date().nullable(), // TODO: 仕様書にはない仕様。なぜかnull。

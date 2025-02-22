@@ -12,35 +12,22 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubItem,
 } from "components/ui/sidebar";
-import { Mock } from "features/_search/_mock/mock-data";
 import { useAtomValue } from "jotai";
-import { ChevronDown, Folder, Text } from "lucide-react";
+import { ChevronDown, Folder, Info, Text } from "lucide-react";
 import type { FC, ReactNode } from "react";
 
-// JSONサンプルに合わせた型定義
-interface MenuItem {
-  tag: string;
-  // attr はオブジェクトとして定義
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  attr: Record<string, any>;
-  // children は MenuItem または文字列の配列を許容する
-  children?: Array<MenuItem | string>;
-}
-
-// Mockデータの children を MenuItem[] として扱う
-const itemMock: MenuItem[] = Mock.law_full_text.children as MenuItem[];
-
 /**
- * 指定された MenuItem の子要素を再帰的に走査し、
+ * 指定された FullText の子要素を再帰的に走査し、
  * 各階層に応じたインデントを付与した文字列の配列を返す。
  */
-export function getIndentedTexts(item: MenuItem, level = 0): string[] {
+export function getIndentedTexts(item: FullText, level = 0): string[] {
   const texts: string[] = [];
   if (item.children) {
     for (const child of item.children) {
@@ -61,15 +48,129 @@ export function getIndentedTexts(item: MenuItem, level = 0): string[] {
 function MenuItemComponent({
   item,
   level = 0,
-}: { item: MenuItem; level?: number }): ReactNode {
+}: { item: FullText; level?: number }): ReactNode {
   // 特殊タグの場合、子要素を表示せず、親タグのみを表示する
-  if (["TOC", "MainProvision", "SupplProvision"].includes(item.tag)) {
-    return (
-      <SidebarMenuItem>
-        <span className="text-xs">{item.tag}AAA</span>
-      </SidebarMenuItem>
-    );
+  // if (["TOC", "MainProvision", "SupplProvision"].includes(item.tag)) {
+  //   return (
+  //     <SidebarMenuItem>
+  //       <span className="text-xs">{item.tag}</span>
+  //     </SidebarMenuItem>
+  //   );
+  // }
+  switch (item.tag) {
+    case "TOC":
+      return (
+        <>
+          {item.children?.map((child, index) => {
+            if (typeof child === "string") {
+              return (
+                <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
+                  <span className="text-xs">{child}</span>
+                </SidebarMenuItem>
+              );
+            }
+            return (
+              <MenuItemComponent
+                key={`${child.tag}-${index}`}
+                item={child}
+                level={level + 1}
+              />
+            );
+          }) ?? ""}
+        </>
+      );
+    case "MainProvision":
+      return (
+        <>
+          <span className="text-xs font-bold">本則</span>
+          {item?.children?.map((child, index) => {
+            if (typeof child === "string") {
+              return (
+                <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
+                  <span className="text-xs">{child}</span>
+                </SidebarMenuItem>
+              );
+            }
+            return (
+              <MenuItemComponent
+                key={`${child.tag}-${index}`}
+                item={child}
+                level={level + 1}
+              />
+            );
+          }) ?? ""}
+        </>
+      );
+    case "SupplProvision":
+      return (
+        <>
+          {/* <span className="text-xs font-bold">附則</span> */}
+          {item?.children?.map((child, index) => {
+            if (typeof child === "string") {
+              return (
+                <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
+                  <span className="text-xs">{child}</span>
+                </SidebarMenuItem>
+              );
+            }
+            return (
+              <MenuItemComponent
+                key={`${child.tag}-${index}`}
+                item={child}
+                level={level + 1}
+              />
+            );
+          }) ?? ""}
+        </>
+      );
+
+    case "Chapter":
+      return (
+        <Collapsible defaultOpen={false}>
+          <CollapsibleTrigger asChild>
+            <SidebarMenuSubItem>
+              <SidebarMenuButton className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Folder size={14} />
+                  <span className="text-xs">
+                    {
+                      item.children?.find((i) => i.tag === "ChapterTitle")
+                        ?.children[0]
+                    }
+                  </span>
+                </div>
+                <ChevronDown className="transition-transform duration-200" />
+              </SidebarMenuButton>
+            </SidebarMenuSubItem>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="">
+            <SidebarMenuSub className="mr-0 pr-0">
+              {item.children?.map((child, index) => {
+                if (typeof child === "string") {
+                  return (
+                    <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
+                      <span className="text-xs">{child}</span>
+                    </SidebarMenuItem>
+                  );
+                }
+                return (
+                  <MenuItemComponent
+                    key={`${child.tag}-${index}`}
+                    item={child}
+                    level={level + 1}
+                  />
+                );
+              })}
+            </SidebarMenuSub>
+          </CollapsibleContent>
+        </Collapsible>
+      );
+    // case "Article":
+
+    case "AppdxTable":
+      return null;
   }
+
   // children が存在し、かつ全てが文字列の場合は、その文字列をインデント付きで各行表示
   if (
     item.children &&
@@ -80,7 +181,7 @@ function MenuItemComponent({
       <>
         {item.children.map((child, index) => (
           <SidebarMenuItem key={`${item.tag}-child-${index}`}>
-            <span className="text-xs">{" ".repeat(level * 2) + child}</span>
+            <span className="text-xs">{child}</span>
           </SidebarMenuItem>
         ))}
       </>
@@ -101,15 +202,13 @@ function MenuItemComponent({
             </SidebarMenuButton>
           </SidebarMenuSubItem>
         </CollapsibleTrigger>
-        <CollapsibleContent className="px-0">
-          <SidebarMenuSub className="ml-4">
+        <CollapsibleContent className="">
+          <SidebarMenuSub className="mr-0 pr-0">
             {item.children.map((child, index) => {
               if (typeof child === "string") {
                 return (
                   <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
-                    <span className="text-xs">
-                      {" ".repeat((level + 1) * 2) + child}
-                    </span>
+                    <span className="text-xs">{child}</span>
                   </SidebarMenuItem>
                 );
               }
@@ -128,7 +227,7 @@ function MenuItemComponent({
   }
   // children がない場合は、tag を表示
   return (
-    <SidebarMenuItem>
+    <SidebarMenuItem className="flex items-center space-x-2">
       <Text size={14} />
       <span className="text-xs">{item.tag}</span>
     </SidebarMenuItem>
@@ -138,7 +237,7 @@ function MenuItemComponent({
 export const AppSidebar: FC = () => {
   const specificLaw = useAtomValue(specificLawAtom);
 
-  if (!specificLaw) {
+  if (specificLaw === undefined) {
     return (
       <Sidebar collapsible="offcanvas">
         <SidebarContent>
@@ -151,38 +250,43 @@ export const AppSidebar: FC = () => {
       </Sidebar>
     );
   }
-  const lawData = specificLaw?.law_full_text.children ?? [""];
+  const lawData = specificLaw.law_full_text.children;
   // console.log(lawData);
 
-  // filteredItems: 特殊タグが出現したらそれ以降の項目を表示しない
-  const filteredItems: FullText[] = [];
-  for (const item of lawData) {
-    if (typeof item === "string") {
-      filteredItems.push({ tag: "string", attr: {}, children: [item] });
-      continue;
-    }
-    filteredItems.push(item);
-    if (
-      ["TOCLabel", "TOCChapter", "MainProvision", "SupplProvision"].includes(
-        item.tag,
-      )
-    ) {
-      break;
-    }
-  }
+  console.log();
 
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
+        <SidebarGroup className="p-0 pb-10">
+          <SidebarGroupLabel className="sticky top-0 z-50 mt-0 min-h-14 border-b border-solid border-b-gray-200 bg-white py-1">
+            <div className="flex flex-col items-start">
+              <h2>{specificLaw.law_info.law_id}</h2>
+              <p className="grid w-full grid-cols-[1fr_auto] items-center gap-2 text-sm font-semibold text-gray-800">
+                <span className="line-clamp-1 block w-full overflow-hidden text-ellipsis">
+                  {specificLaw.revision_info.law_title}
+                </span>
+                <Info size={14} />
+              </p>
+            </div>
+          </SidebarGroupLabel>
+          <SidebarGroupContent className="p-1">
             <SidebarMenu>
-              {filteredItems.map((item, index) => (
-                <MenuItemComponent
-                  key={`${item.tag}-${index}`}
-                  item={item}
-                />
-              ))}
+              {lawData[1].children.map((item, index) => {
+                if (typeof item === "string") {
+                  return (
+                    <SidebarMenuItem key={`${item}-${String(index)}`}>
+                      <span className="text-xs">{item}</span>
+                    </SidebarMenuItem>
+                  );
+                }
+                return (
+                  <MenuItemComponent
+                    key={`${item.tag}-${index}`}
+                    item={item}
+                  />
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
