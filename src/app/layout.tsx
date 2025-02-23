@@ -9,6 +9,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { BreadCrumb } from "@/components/breadcrumbs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { twMerge } from "tailwind-merge";
+import TabContentChat from "@/components/page/tab-content-chat";
 
 const notoSansJp = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -63,7 +64,7 @@ export default function RootLayout({
                   <TabContentDesign />
                 </TabsContent>
                 <TabsContent value="auxiliary">
-                  Change your password here.
+                  <TabContentChat/>
                 </TabsContent>
               </Tabs>
             </div>
