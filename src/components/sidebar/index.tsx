@@ -22,67 +22,24 @@ import {
 import { useAtomValue } from "jotai";
 import { ChevronDown, Folder, Info, Text } from "lucide-react";
 import type { FC, ReactNode } from "react";
-
-/**
- * 指定された FullText の子要素を再帰的に走査し、
- * 各階層に応じたインデントを付与した文字列の配列を返す。
- */
-export function getIndentedTexts(item: FullText, level = 0): string[] {
-  const texts: string[] = [];
-  if (item.children) {
-    for (const child of item.children) {
-      if (typeof child === "string") {
-        texts.push(" ".repeat(level * 2) + child);
-      } else {
-        texts.push(...getIndentedTexts(child, level + 1));
-      }
-    }
-  }
-  return texts;
-}
+import { SidebarTabSet } from "./tab-article";
 
 /**
  * 再帰的にメニュー項目をレンダリングするコンポーネント
  * @param level 再帰レベル（トップは 0）
  */
-function MenuItemComponent({
+export const MenuItemComponent = ({
   item,
   level = 0,
-}: { item: FullText; level?: number }): ReactNode {
-  // 特殊タグの場合、子要素を表示せず、親タグのみを表示する
-  // if (["TOC", "MainProvision", "SupplProvision"].includes(item.tag)) {
-  //   return (
-  //     <SidebarMenuItem>
-  //       <span className="text-xs">{item.tag}</span>
-  //     </SidebarMenuItem>
-  //   );
-  // }
+}: { item: FullText; level?: number }): ReactNode => {
   switch (item.tag) {
     case "TOC":
-      return (
-        <>
-          {item.children?.map((child, index) => {
-            if (typeof child === "string") {
-              return (
-                <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
-                  <span className="text-xs">{child}</span>
-                </SidebarMenuItem>
-              );
-            }
-            return (
-              <MenuItemComponent
-                key={`${child.tag}-${index}`}
-                item={child}
-                level={level + 1}
-              />
-            );
-          }) ?? ""}
-        </>
-      );
+      return null;
+
     case "MainProvision":
       return (
         <>
-          <span className="text-xs font-bold">本則</span>
+          <h3 className="py-1 text-xs font-bold">本則</h3>
           {item?.children?.map((child, index) => {
             if (typeof child === "string") {
               return (
@@ -104,7 +61,7 @@ function MenuItemComponent({
     case "SupplProvision":
       return (
         <>
-          {/* <span className="text-xs font-bold">附則</span> */}
+          <span className="py-1 text-xs font-bold">附則</span>
           {item?.children?.map((child, index) => {
             if (typeof child === "string") {
               return (
@@ -112,6 +69,9 @@ function MenuItemComponent({
                   <span className="text-xs">{child}</span>
                 </SidebarMenuItem>
               );
+            }
+            if (child.tag === "SupplProvisionLabel") {
+              return null;
             }
             return (
               <MenuItemComponent
@@ -123,49 +83,43 @@ function MenuItemComponent({
           }) ?? ""}
         </>
       );
-
     case "Chapter":
       return (
-        <Collapsible defaultOpen={false}>
-          <CollapsibleTrigger asChild>
-            <SidebarMenuSubItem>
-              <SidebarMenuButton className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Folder size={14} />
-                  <span className="text-xs">
-                    {
-                      item.children?.find((i) => i.tag === "ChapterTitle")
-                        ?.children[0]
-                    }
-                  </span>
-                </div>
-                <ChevronDown className="transition-transform duration-200" />
-              </SidebarMenuButton>
-            </SidebarMenuSubItem>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="">
-            <SidebarMenuSub className="mr-0 pr-0">
-              {item.children?.map((child, index) => {
-                if (typeof child === "string") {
-                  return (
-                    <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
-                      <span className="text-xs">{child}</span>
-                    </SidebarMenuItem>
-                  );
-                }
-                return (
-                  <MenuItemComponent
-                    key={`${child.tag}-${index}`}
-                    item={child}
-                    level={level + 1}
-                  />
-                );
-              })}
-            </SidebarMenuSub>
-          </CollapsibleContent>
-        </Collapsible>
+        <SidebarTabSet.Chapter
+          item={item}
+          level={level}
+        />
       );
-    // case "Article":
+    case "Section":
+      return (
+        <SidebarTabSet.Section
+          item={item}
+          level={level}
+        />
+      );
+    case "Subsection":
+      return (
+        <SidebarTabSet.Subsection
+          item={item}
+          level={level}
+        />
+      );
+    case "Division":
+      return (
+        <SidebarTabSet.Division
+          item={item}
+          level={level}
+        />
+      );
+    case "Article":
+      return (
+        <SidebarTabSet.Article
+          item={item}
+          level={level}
+        />
+      );
+    case "Paragraph":
+      return null;
 
     case "AppdxTable":
       return null;
@@ -195,7 +149,7 @@ function MenuItemComponent({
           <SidebarMenuSubItem>
             <SidebarMenuButton className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Folder size={14} />
+                <Folder size={10} />
                 <span className="text-xs">{item.tag}</span>
               </div>
               <ChevronDown className="transition-transform duration-200" />
@@ -228,11 +182,11 @@ function MenuItemComponent({
   // children がない場合は、tag を表示
   return (
     <SidebarMenuItem className="flex items-center space-x-2">
-      <Text size={14} />
+      <Text size={10} />
       <span className="text-xs">{item.tag}</span>
     </SidebarMenuItem>
   );
-}
+};
 
 export const AppSidebar: FC = () => {
   const specificLaw = useAtomValue(specificLawAtom);
@@ -266,7 +220,7 @@ export const AppSidebar: FC = () => {
                 <span className="line-clamp-1 block w-full overflow-hidden text-ellipsis">
                   {specificLaw.revision_info.law_title}
                 </span>
-                <Info size={14} />
+                <Info size={10} />
               </p>
             </div>
           </SidebarGroupLabel>
