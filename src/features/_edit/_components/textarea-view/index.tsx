@@ -13,7 +13,6 @@ import {
   type Dispatch,
   type FC,
   type SetStateAction,
-  Suspense,
   useEffect,
   useState,
 } from "react";
@@ -53,36 +52,34 @@ export const EditView: FC<Props> = (props: Props) => {
   }, [searchParams]);
 
   return (
-    <Suspense>
-      <div className="relative flex h-full w-full justify-end overflow-x-auto text-sm">
-        <div
-          className={twMerge(
-            "flex flex-col p-2 h-full w-full",
-            isV && "[writing-mode:vertical-rl] self-start",
-          )}
-        >
-          {specificArticle?.children?.map((child, idx) => (
-            <ViewerElementByTag
-              items={child as FullText}
-              key={`${(child as FullText).tag}-${idx}`}
-              isV={isV}
-            />
-          ))}
-        </div>
-        <button
-          type="button"
-          className={twMerge(
-            "fixed bottom-6 right-6 rounded-full cursor-pointer p-2 shadow-md bg-white border-2 border-solid border-blue-700 duration-150",
-            isEditMode && "bg-blue-700",
-          )}
-          onClick={() => setIsEditMode(!isEditMode)}
-        >
-          <Pencil
-            className={twMerge("text-blue-700", isEditMode && "text-white")}
+    <div className="relative flex h-full w-full justify-end overflow-x-auto text-sm">
+      <div
+        className={twMerge(
+          "flex flex-col p-2 h-full w-full",
+          isV && "[writing-mode:vertical-rl] self-start",
+        )}
+      >
+        {specificArticle?.children?.map((child, idx) => (
+          <ViewerElementByTag
+            items={child as FullText}
+            key={`${(child as FullText).tag}-${idx}`}
+            isV={isV}
           />
-        </button>
+        ))}
       </div>
-    </Suspense>
+      <button
+        type="button"
+        className={twMerge(
+          "fixed bottom-6 right-6 rounded-full cursor-pointer p-2 shadow-md bg-white border-2 border-solid border-blue-700 duration-150",
+          isEditMode && "bg-blue-700",
+        )}
+        onClick={() => setIsEditMode(!isEditMode)}
+      >
+        <Pencil
+          className={twMerge("text-blue-700", isEditMode && "text-white")}
+        />
+      </button>
+    </div>
   );
 };
 
