@@ -10,7 +10,8 @@ import { BreadCrumb } from "@/components/breadcrumbs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { twMerge } from "tailwind-merge";
 import TabContentChat from "@/components/page/tab-content-chat";
-import { FileClock, Sparkles } from "lucide-react";
+import { ExternalLink, FileClock, Sparkles } from "lucide-react";
+import TabContentExternal from "@/components/page/tab-content-external";
 
 const notoSansJp = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -70,12 +71,21 @@ export default function RootLayout({
                       <div>AI補助</div>
                     </div>
                   </TabsTrigger>
+                  <TabsTrigger value="external">
+                    <div className="flex gap-2">
+                      <div className="text-sm"><ExternalLink /></div>
+                      <div>外部AI補助</div>
+                    </div>
+                  </TabsTrigger>
                 </TabsList>
                 <TabsContent value="history">
                   <TabContentDesign />
                 </TabsContent>
                 <TabsContent value="auxiliary">
                   <TabContentChat/>
+                </TabsContent>
+                <TabsContent value="external">
+                  <TabContentExternal/>
                 </TabsContent>
               </Tabs>
             </div>

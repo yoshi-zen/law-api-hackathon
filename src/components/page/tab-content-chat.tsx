@@ -19,7 +19,7 @@ interface Message {
     content: string;
 }
 
-export default function Home() {
+export default function TabContentChat() {
     const [input, setInput] = useState("");
     const [chat, setChat] = useState<Message[]>([]);
     const [model, setModel] = useState("gpt-3.5-turbo");
