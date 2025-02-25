@@ -12,9 +12,10 @@ import type {
 
 export const fetchSpecificLaw = async (
   lawId: string,
+  elm?: string | null,
 ): Promise<ErrorResponse | SuccessResponse<LawDataResponseType>> => {
   const apiEndpoint = process.env.API_ENDPOINT;
-  const response = await fetch(`${apiEndpoint}/law_data/${lawId}`);
+  const response = await fetch(`${apiEndpoint}/law_data/${lawId}?elm=${elm}`);
 
   if (!response.ok) {
     const timeStamp = Date.now();

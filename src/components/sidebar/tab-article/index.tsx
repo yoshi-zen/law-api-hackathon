@@ -1,12 +1,13 @@
 import { SidebarMenuItem } from "@/components/ui/sidebar";
 import type { FullText } from "@/features/_search/_types/_common/law-data-response";
 import { Folder, Text } from "lucide-react";
+import Link from "next/link";
 import { MenuItemComponent } from "..";
 import { CollapsibleTab } from "../collapsible-tab";
 
 type Props = {
   item: FullText;
-  level: number;
+  route: URLSearchParams;
 };
 
 /**
@@ -23,6 +24,56 @@ const getChildSpecificTag = (tag: string, item: FullText) => {
 };
 
 export const SidebarTabSet = {
+  MainProvision: function MainProvision(props: Props) {
+    return (
+      <>
+        <h3 className="py-1 text-xs font-bold">本則</h3>
+        {props.item?.children?.map((child, index) => {
+          if (typeof child === "string") {
+            return (
+              <SidebarMenuItem key={`${props.item.tag}-child-string-${index}`}>
+                <span className="text-xs">{child}</span>
+              </SidebarMenuItem>
+            );
+          }
+          return (
+            <MenuItemComponent
+              key={`${child.tag}-${index}`}
+              item={child}
+              route={props.route}
+            />
+          );
+        }) ?? ""}
+      </>
+    );
+  },
+
+  SupplProvision: function SupplProvision(props: Props) {
+    return (
+      <>
+        <h3 className="py-1 text-xs font-bold">附則</h3>
+        {props.item?.children?.map((child, index) => {
+          if (typeof child === "string") {
+            return (
+              <SidebarMenuItem key={`${props.item.tag}-child-string-${index}`}>
+                <span className="text-xs">{child}</span>
+              </SidebarMenuItem>
+            );
+          }
+          if (child.tag === "SupplProvisionLabel") {
+            return null;
+          }
+          return (
+            <MenuItemComponent
+              key={`${child.tag}-${index}`}
+              item={child}
+              route={props.route}
+            />
+          );
+        }) ?? ""}
+      </>
+    );
+  },
   Chapter: function Chapter(props: Props) {
     return (
       <CollapsibleTab
@@ -49,7 +100,7 @@ export const SidebarTabSet = {
             <MenuItemComponent
               key={`${child.tag}-${index}`}
               item={child}
-              level={props.level + 1}
+              route={props.route}
             />
           );
         })}
@@ -83,7 +134,7 @@ export const SidebarTabSet = {
             <MenuItemComponent
               key={`${child.tag}-${index}`}
               item={child}
-              level={props.level + 1}
+              route={props.route}
             />
           );
         })}
@@ -117,7 +168,7 @@ export const SidebarTabSet = {
             <MenuItemComponent
               key={`${child.tag}-${index}`}
               item={child}
-              level={props.level + 1}
+              route={props.route}
             />
           );
         })}
@@ -151,7 +202,7 @@ export const SidebarTabSet = {
             <MenuItemComponent
               key={`${child.tag}-${index}`}
               item={child}
-              level={props.level + 1}
+              route={props.route}
             />
           );
         })}
@@ -160,18 +211,23 @@ export const SidebarTabSet = {
   },
 
   Article: function Article(props: Props) {
-    // - ArticleTitle
-    // - ArticleCaption
-    // - Paragraph
-    // - SupplNote
-
+    const params = new URLSearchParams({
+      elm: `Article_${
+        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+        props.item.attr["Num"]
+      }`,
+    });
+    // console.log(params.toString());
     return (
-      <SidebarMenuItem className="grid grid-cols-[10px_1fr] items-center gap-x-1 pl-2">
+      <SidebarMenuItem className="grid grid-cols-[10px_1fr] items-center gap-x-1 py-0.5 pl-2">
         <Text size={10} />
-        <p className="text-2xs leading-4">
+        <Link
+          href={`/?${params.toString()}`}
+          className="text-2xs leading-4"
+        >
           <span>{getChildSpecificTag("ArticleTitle", props.item)}</span>
           <span>{getChildSpecificTag("ArticleCaption", props.item)}</span>
-        </p>
+        </Link>
       </SidebarMenuItem>
     );
   },

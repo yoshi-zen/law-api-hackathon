@@ -5,3 +5,6 @@ import { atom } from "jotai";
 export const specificLawAtom = atom<LawDataResponseType | undefined>(
   Mock as LawDataResponseType,
 );
+
+export const editModeAtom = atom<boolean>(false);
+export const isV = atom<boolean>(false);

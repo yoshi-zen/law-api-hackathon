@@ -24,98 +24,67 @@ import { ChevronDown, Folder, Info, Text } from "lucide-react";
 import type { FC, ReactNode } from "react";
 import { SidebarTabSet } from "./tab-article";
 
+type Props = {
+  item: FullText;
+  route: URLSearchParams;
+};
+
 /**
  * 再帰的にメニュー項目をレンダリングするコンポーネント
  * @param level 再帰レベル（トップは 0）
  */
-export const MenuItemComponent = ({
-  item,
-  level = 0,
-}: { item: FullText; level?: number }): ReactNode => {
+export const MenuItemComponent = ({ item, route }: Props): ReactNode => {
   switch (item.tag) {
     case "TOC":
       return null;
 
     case "MainProvision":
       return (
-        <>
-          <h3 className="py-1 text-xs font-bold">本則</h3>
-          {item?.children?.map((child, index) => {
-            if (typeof child === "string") {
-              return (
-                <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
-                  <span className="text-xs">{child}</span>
-                </SidebarMenuItem>
-              );
-            }
-            return (
-              <MenuItemComponent
-                key={`${child.tag}-${index}`}
-                item={child}
-                level={level + 1}
-              />
-            );
-          }) ?? ""}
-        </>
+        <SidebarTabSet.MainProvision
+          item={item}
+          route={route}
+        />
       );
     case "SupplProvision":
       return (
-        <>
-          <span className="py-1 text-xs font-bold">附則</span>
-          {item?.children?.map((child, index) => {
-            if (typeof child === "string") {
-              return (
-                <SidebarMenuItem key={`${item.tag}-child-string-${index}`}>
-                  <span className="text-xs">{child}</span>
-                </SidebarMenuItem>
-              );
-            }
-            if (child.tag === "SupplProvisionLabel") {
-              return null;
-            }
-            return (
-              <MenuItemComponent
-                key={`${child.tag}-${index}`}
-                item={child}
-                level={level + 1}
-              />
-            );
-          }) ?? ""}
-        </>
+        <SidebarTabSet.SupplProvision
+          item={item}
+          route={route}
+        />
       );
     case "Chapter":
       return (
         <SidebarTabSet.Chapter
           item={item}
-          level={level}
+          route={route}
         />
       );
     case "Section":
       return (
         <SidebarTabSet.Section
           item={item}
-          level={level}
+          route={route}
         />
       );
     case "Subsection":
       return (
         <SidebarTabSet.Subsection
           item={item}
-          level={level}
+          route={route}
         />
       );
     case "Division":
       return (
         <SidebarTabSet.Division
           item={item}
-          level={level}
+          route={route}
         />
       );
     case "Article":
       return (
         <SidebarTabSet.Article
           item={item}
-          level={level}
+          route={route}
         />
       );
     case "Paragraph":
@@ -170,7 +139,7 @@ export const MenuItemComponent = ({
                 <MenuItemComponent
                   key={`${child.tag}-${index}`}
                   item={child}
-                  level={level + 1}
+                  route={route}
                 />
               );
             })}
@@ -190,6 +159,7 @@ export const MenuItemComponent = ({
 
 export const AppSidebar: FC = () => {
   const specificLaw = useAtomValue(specificLawAtom);
+  const route = new URLSearchParams({});
 
   if (specificLaw === undefined) {
     return (
@@ -205,9 +175,6 @@ export const AppSidebar: FC = () => {
     );
   }
   const lawData = specificLaw.law_full_text.children;
-  // console.log(lawData);
-
-  console.log();
 
   return (
     <Sidebar collapsible="offcanvas">
@@ -226,7 +193,7 @@ export const AppSidebar: FC = () => {
           </SidebarGroupLabel>
           <SidebarGroupContent className="p-1">
             <SidebarMenu>
-              {lawData[1].children.map((item, index) => {
+              {lawData[1]?.children?.map((item, index) => {
                 if (typeof item === "string") {
                   return (
                     <SidebarMenuItem key={`${item}-${String(index)}`}>
@@ -238,9 +205,10 @@ export const AppSidebar: FC = () => {
                   <MenuItemComponent
                     key={`${item.tag}-${index}`}
                     item={item}
+                    route={route}
                   />
                 );
-              })}
+              }) ?? ""}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
