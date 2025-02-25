@@ -13,7 +13,11 @@ export default function Home() {
   const [isVerticalMode, setIsVerticalMode] = useState(false);
 
   return (
-    <main className={twMerge(isVerticalMode && "h-full max-h-full")}>
+    <main
+      className={twMerge(
+        isVerticalMode && "h-full max-h-full grid grid-rows-[auto_1fr]",
+      )}
+    >
       <div
         className={twMerge(
           "sticky top-0 flex items-center justify-end gap-2 py-2  bg-gray-100",

@@ -13,6 +13,7 @@ import {
   type Dispatch,
   type FC,
   type SetStateAction,
+  Suspense,
   useEffect,
   useState,
 } from "react";
@@ -52,34 +53,36 @@ export const EditView: FC<Props> = (props: Props) => {
   }, [searchParams]);
 
   return (
-    <div className="relative grid h-full w-full grid-rows-[auto_1fr] overflow-x-auto text-sm">
-      <div
-        className={twMerge(
-          "flex flex-col p-2",
-          isV && "[writing-mode:vertical-rl] self-start",
-        )}
-      >
-        {specificArticle?.children?.map((child, idx) => (
-          <ViewerElementByTag
-            items={child as FullText}
-            key={`${(child as FullText).tag}-${idx}`}
-            isV={isV}
+    <Suspense>
+      <div className="relative flex h-full w-full justify-end overflow-x-auto text-sm">
+        <div
+          className={twMerge(
+            "flex flex-col p-2 h-full w-full",
+            isV && "[writing-mode:vertical-rl] self-start",
+          )}
+        >
+          {specificArticle?.children?.map((child, idx) => (
+            <ViewerElementByTag
+              items={child as FullText}
+              key={`${(child as FullText).tag}-${idx}`}
+              isV={isV}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          className={twMerge(
+            "fixed bottom-6 right-6 rounded-full cursor-pointer p-2 shadow-md bg-white border-2 border-solid border-blue-700 duration-150",
+            isEditMode && "bg-blue-700",
+          )}
+          onClick={() => setIsEditMode(!isEditMode)}
+        >
+          <Pencil
+            className={twMerge("text-blue-700", isEditMode && "text-white")}
           />
-        ))}
+        </button>
       </div>
-      <button
-        type="button"
-        className={twMerge(
-          "fixed bottom-6 right-6 rounded-full cursor-pointer p-2 shadow-md bg-white border-2 border-solid border-blue-700 duration-150",
-          isEditMode && "bg-blue-700",
-        )}
-        onClick={() => setIsEditMode(!isEditMode)}
-      >
-        <Pencil
-          className={twMerge("text-blue-700", isEditMode && "text-white")}
-        />
-      </button>
-    </div>
+    </Suspense>
   );
 };
 
@@ -95,7 +98,7 @@ const ViewerElementByTag = ({
           <span>条見出し：</span>
           {isEditMode ? (
             <Input
-              className={twMerge("inline h-5  w-fit", isV && "w-5 h-fit")}
+              className={twMerge("inline h-5  w-fit", isV && "h-fit")}
               defaultValue={(items.children?.[0] as string) ?? ""}
             />
           ) : (
@@ -145,7 +148,7 @@ const ViewerElementByTag = ({
         return isEditMode ? (
           <Textarea
             key={`${(c as FullText).tag}-${idx}`}
-            className={twMerge("inline h-5  w-full", isV && "w-5 h-fit")}
+            className={twMerge("inline h-5  w-full", isV && "w-auto h-full")}
             defaultValue={((c as FullText).children?.[0] as string) ?? ""}
           />
         ) : (
@@ -201,7 +204,7 @@ const ViewerElementByTag = ({
       return isEditMode ? (
         <Textarea
           defaultValue={items.children?.[0] as string}
-          className="h-fit"
+          className={twMerge("h-fit", isV && "w-auto h-full")}
         />
       ) : (
         <p>{items.children?.[0] as string}</p>
