@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
-import TabContentDesign from "@/components/page/tab-content-design";
 
-import { AppSidebar } from "@/components/page/app-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-import { BreadCrumb } from "@/components/breadcrumbs";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {} from "@/components/ui/tabs";
+import { Toaster } from "@/components/ui/toaster";
+// import { BreadCrumb } from "@/components/breadcrumbs";
 import { twMerge } from "tailwind-merge";
 
 const notoSansJp = Noto_Sans_JP({
@@ -35,40 +35,35 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSidebar />
-          <div className="grid h-screen grid-cols-[5fr_4fr] gap-4">
-            <div className="grid h-screen grid-cols-[1fr_4fr] gap-4 p-4 pr-0">
-              <div className="grid grid-rows-[2.5rem_1fr] gap-4">
-                <div className="rounded-md bg-slate-400" />
-                <div className="rounded-md bg-slate-600" />
-              </div>
-              <div className="grid grid-rows-[2.5rem_1fr] gap-4">
-                <div className="flex items-center rounded-md bg-slate-200 px-4">
-                  <BreadCrumb />
-                </div>
-                <div className="max-h-[calc(100vh-5.5rem)] flex-col overflow-y-scroll rounded-md bg-slate-400">
-                  {children}
-                </div>
-              </div>
+          <div className="grid h-screen w-full grid-rows-[2.5em_1fr] gap-2 p-2">
+            <div className="flex items-center rounded-md">
+              {/* <BreadCrumb /> */}
+              <SidebarTrigger className="m-0" />
             </div>
-            <div className="rounded-md p-4 pl-0">
-              <Tabs
-                defaultValue="history"
-                className="w-full"
+            {/* <Tabs className="row-span-2 grid grid-rows-[2.5em_1fr] gap-2">
+              <TabsList className="justify-start rounded-md bg-gray-200 p-1">
+                <TabsTrigger value="history">改変履歴</TabsTrigger>
+                <TabsTrigger value="auxiliary">AI補助</TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="history"
+                className="mt-0 h-full rounded-md bg-gray-200"
               >
-                <TabsList>
-                  <TabsTrigger value="history">改変履歴</TabsTrigger>
-                  <TabsTrigger value="auxiliary">AI補助</TabsTrigger>
-                </TabsList>
-                <TabsContent value="history">
-                  <TabContentDesign />
-                </TabsContent>
-                <TabsContent value="auxiliary">
-                  Change your password here.
-                </TabsContent>
-              </Tabs>
+                <TabContentDesign />
+              </TabsContent>
+              <TabsContent
+                value="auxiliary"
+                className="mt-0 h-full rounded-md"
+              >
+                Change your password here.
+              </TabsContent>
+            </Tabs> */}
+            <div className="flex-col overflow-y-scroll rounded-md bg-gray-100">
+              {children}
             </div>
           </div>
         </SidebarProvider>
+        <Toaster />
       </body>
     </html>
   );

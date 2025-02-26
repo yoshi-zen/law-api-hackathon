@@ -138,7 +138,8 @@ export const CardResult: FC<Props> = (props: Props) => {
                     title="改正法令公布日"
                     content={format(
                       parse(
-                        law.current_revision_info.amendment_promulgate_date,
+                        law.current_revision_info
+                          .amendment_promulgate_date as string,
                         "yyyy-MM-dd",
                         new Date(),
                       ),

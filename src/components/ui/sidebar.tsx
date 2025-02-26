@@ -2,7 +2,7 @@
 
 import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
-import { ChevronRight, PanelLeft } from "lucide-react";
+import { PanelLeft } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -18,17 +18,12 @@ import {
 } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "./breadcrumb";
+import { BreadCrumb } from "../breadcrumbs";
+import {} from "./breadcrumb";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = "16rem";
+const SIDEBAR_WIDTH = "18rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
@@ -236,7 +231,7 @@ const Sidebar = React.forwardRef<
     return (
       <div
         ref={ref}
-        className="group peer hidden md:block text-sidebar-foreground"
+        className="group peer hidden text-sidebar-foreground md:block"
         data-state={state}
         data-collapsible={state === "collapsed" ? collapsible : ""}
         data-variant={variant}
@@ -303,21 +298,9 @@ const SidebarTrigger = React.forwardRef<
       {...props}
     >
       <PanelLeft />
-      <div className="border-r-2 pr-2 mr-2 border-slate-400 h-[170%] border-solid" />
+      <div className="mr-2 h-[170%] border-r-2 border-solid border-slate-400 pr-2" />
       <div>
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator>
-              <ChevronRight />
-            </BreadcrumbSeparator>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/components">Components</BreadcrumbLink>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <BreadCrumb />
       </div>
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
@@ -709,7 +692,7 @@ const SidebarMenuSkeleton = React.forwardRef<
         />
       )}
       <Skeleton
-        className="h-4 flex-1 max-w-[--skeleton-width]"
+        className="h-4 max-w-[--skeleton-width] flex-1"
         data-sidebar="menu-skeleton-text"
         style={
           {
