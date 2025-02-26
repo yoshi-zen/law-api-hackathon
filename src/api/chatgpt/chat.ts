@@ -3,10 +3,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 import { NextResponse } from "next/server";
 
-const configuration = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });

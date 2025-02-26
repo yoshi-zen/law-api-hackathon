@@ -1,15 +1,27 @@
 "use client"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { useApiKey } from "@/contexts/api-key-context";
+import { useState } from "react";
+
+// APIキーが長い場合、先頭と末尾を表示して中間を"..."で省略するヘルパー関数
+function truncateApiKey(key: string, maxLength: number = 20): string {
+    if (key.length <= maxLength) return key;
+    const start = key.slice(0, 8);
+    const end = key.slice(-8);
+    return `${start}...${end}`;
+}
 
 export function SettingsDialog() {
-    const { apiKey, setApiKey } = useApiKey();
+    const { apiKeys, addApiKey, removeApiKey } = useApiKey();
+    const [newApiKey, setNewApiKey] = useState("");
 
     const handleSave = () => {
-        // 必要に応じて保存時の追加処理をここに記述
-        console.log("API key saved:", apiKey);
+        if (newApiKey) {
+            addApiKey(newApiKey);
+            setNewApiKey(""); // 入力フィールドをクリア
+        }
     };
 
     return (
@@ -31,14 +43,51 @@ export function SettingsDialog() {
                         type="text"
                         className="w-full p-2 border border-gray-300 rounded"
                         placeholder="API キーを入力"
-                        value={apiKey}
-                        onChange={(e) => setApiKey(e.target.value)}
+                        value={newApiKey}
+                        onChange={(e) => setNewApiKey(e.target.value)}
                     />
                 </div>
-                <DialogFooter>
-                    <Button type="button" onClick={handleSave}>保存</Button>
+                <div className="mt-4 overflow-x-auto">
+                    <strong>現在のAPIキー:</strong>
+                    <table className="min-w-full divide-y divide-gray-200 mt-2">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    API Key
+                                </th>
+                                <th className="px-4 py-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {apiKeys.map((key: string) => (
+                                <tr key={key}>
+                                    <td className="px-4 py-2 whitespace-nowrap">
+                                        <span className="block truncate" title={key}>
+                                            {truncateApiKey(key)}
+                                        </span>
+                                    </td>
+                                    <td className="px-4 py-2 whitespace-nowrap">
+                                        <Button
+                                            type="button"
+                                            onClick={() => removeApiKey(key)}
+                                            variant="destructive"
+                                        >
+                                            削除
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <DialogFooter className="sm:justify-end">
+                    <DialogClose asChild>
+                        <Button type="button" variant="secondary">
+                            Close
+                        </Button>
+                    </DialogClose>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
     );
-} 
+}

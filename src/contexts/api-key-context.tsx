@@ -1,27 +1,38 @@
+// src/contexts/api-key-context.tsx
 "use client"
-import { createContext, useContext, useState, ReactNode } from 'react';
 
-interface ApiKeyContextType {
-    apiKey: string;
-    setApiKey: (key: string) => void;
-}
+import React, { createContext, useContext, useState, ReactNode } from "react";
+
+type ApiKeyContextType = {
+  apiKeys: string[];
+  addApiKey: (key: string) => void;
+  removeApiKey: (key: string) => void;
+};
 
 const ApiKeyContext = createContext<ApiKeyContextType | undefined>(undefined);
 
-export function ApiKeyProvider({ children }: { children: ReactNode }) {
-    const [apiKey, setApiKey] = useState("");
+export const ApiKeyProvider = ({ children }: { children: ReactNode }) => {
+  const [apiKeys, setApiKeys] = useState<string[]>([]);
 
-    return (
-        <ApiKeyContext.Provider value={{ apiKey, setApiKey }}>
-            {children}
-        </ApiKeyContext.Provider>
-    );
-}
+  const addApiKey = (key: string) => {
+    setApiKeys((prev) => [...prev, key]);
+  };
 
-export function useApiKey() {
-    const context = useContext(ApiKeyContext);
-    if (context === undefined) {
-        throw new Error('useApiKey must be used within a ApiKeyProvider');
-    }
-    return context;
-} 
+  const removeApiKey = (key: string) => {
+    setApiKeys((prev) => prev.filter((k) => k !== key));
+  };
+
+  return (
+    <ApiKeyContext.Provider value={{ apiKeys, addApiKey, removeApiKey }}>
+      {children}
+    </ApiKeyContext.Provider>
+  );
+};
+
+export const useApiKey = () => {
+  const context = useContext(ApiKeyContext);
+  if (context === undefined) {
+    throw new Error("useApiKey must be used within an ApiKeyProvider");
+  }
+  return context;
+};

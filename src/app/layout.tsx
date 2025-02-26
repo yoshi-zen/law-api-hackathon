@@ -26,9 +26,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
@@ -56,25 +56,23 @@ export default function RootLayout({
                 </div>
               </div>
               <div className="rounded-md p-4 pl-0">
-                <Tabs
-                  defaultValue="history"
-                  className="w-full h-full"
-                >
+                <Tabs defaultValue="history" className="w-full h-full">
                   <div className="flex items-center justify-between">
                     <TabsList>
                       <TabsTrigger value="history">
                         <div className="flex gap-2">
-                          <div className=""><FileClock /></div>
+                          <FileClock />
                           <div>改変履歴</div>
                         </div>
                       </TabsTrigger>
                       <TabsTrigger value="auxiliary">
                         <div className="flex gap-2">
-                          <div className="text-sm"><Sparkles /></div>
+                          <Sparkles />
                           <div>AI補助</div>
                         </div>
                       </TabsTrigger>
                     </TabsList>
+                    {/* ここに設定アイコン（SettingsDialog）が表示され、クリックするとAPIキー入力モーダルが開く */}
                     <SettingsDialog />
                   </div>
                   <TabsContent value="history">

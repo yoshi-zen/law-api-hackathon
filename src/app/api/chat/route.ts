@@ -4,7 +4,7 @@ import OpenAI from "openai";
 export async function POST(request: Request) {
   try {
     const { messages, model, apiKey } = await request.json();
-    const keyToUse = apiKey || process.env.OPENAI_API_KEY;
+    const keyToUse = apiKey
     
     if (!keyToUse) {
       return NextResponse.json(
