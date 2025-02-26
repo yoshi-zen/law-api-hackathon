@@ -7,7 +7,7 @@ import { RevisionInfoSchema } from "./revision-info";
  * - law_info: 法令情報
  * - revisions: 改正情報
  */
-const LawRevisionsResponseSchema = z.object({
+export const LawRevisionsResponseSchema = z.object({
   law_info: LawInfoSchema,
   revisions: z.array(RevisionInfoSchema),
 });

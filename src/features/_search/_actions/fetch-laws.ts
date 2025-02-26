@@ -3,24 +3,16 @@
 import {
   ErrorInfoSchema,
   type ErrorInfoType,
-} from "../_types/_common/error-info";
+} from "features/_search/_types/_common/error-info";
 import {
   LawsResponseSchema,
   type LawsResponseType,
-} from "../_types/_common/laws-response";
-import { SchemaFetchLaws } from "../_types/_custom/schema-fetch-laws";
-
-export type FetchLawsResponse =
-  | {
-      status: "error";
-      timeStamp: number;
-      errorInfo: ErrorInfoType;
-    }
-  | {
-      status: "success";
-      timeStamp: number;
-      lawsResponse: LawsResponseType;
-    };
+} from "features/_search/_types/_common/laws-response";
+import type {
+  ErrorResponse,
+  SuccessResponse,
+} from "features/_search/_types/_custom/response-type";
+import { SchemaFetchLaws } from "features/_search/_types/_custom/schema-fetch-laws";
 
 const errorInfoCommon: ErrorInfoType = {
   code: "INVALID_FORM_DATA",
@@ -31,7 +23,7 @@ export const fetchLawList = async (
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   _prevState: any,
   formData: FormData,
-): Promise<FetchLawsResponse> => {
+): Promise<ErrorResponse | SuccessResponse<LawsResponseType>> => {
   const obj = Object.fromEntries(formData);
 
   const result = SchemaFetchLaws.safeParse(obj);
@@ -73,24 +65,23 @@ export const fetchLawList = async (
     return {
       status: "error",
       timeStamp: Date.now(),
-      errorInfo: errorInfoCommon,
+      errorInfo: {
+        code: "SERVER_ERROR",
+        message: "サーバーエラーが発生しました",
+      },
     };
   }
 
   const json = await response.json();
 
-  // console.log(JSON.stringify(json, null, 2));
-
   const parsedJson = LawsResponseSchema.safeParse(json);
   if (parsedJson.success) {
-    // console.log(parsedJson.data.laws);
     return {
       status: "success",
       timeStamp: Date.now(),
-      lawsResponse: parsedJson.data,
+      data: parsedJson.data,
     };
   }
-  // console.log(parsedJson.error);
 
   const errorJson = ErrorInfoSchema.safeParse(json);
   if (errorJson.success) {
@@ -104,6 +95,9 @@ export const fetchLawList = async (
   return {
     status: "error",
     timeStamp: Date.now(),
-    errorInfo: errorInfoCommon,
+    errorInfo: {
+      code: "UNKNOWN_ERROR",
+      message: "不明なエラーが発生しました",
+    },
   };
 };

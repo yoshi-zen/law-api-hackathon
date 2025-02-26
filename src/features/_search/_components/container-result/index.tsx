@@ -1,9 +1,14 @@
 import type { FC } from "react";
-import type { FetchLawsResponse } from "../../_actions/fetch-laws";
+import type {} from "../../_actions/fetch-laws";
+import type { LawsResponseType } from "../../_types/_common/laws-response";
+import type {
+  ErrorResponse,
+  SuccessResponse,
+} from "../../_types/_custom/response-type";
 import { CardResult } from "../card-result";
 
 type Props = {
-  result: FetchLawsResponse | null;
+  result: ErrorResponse | SuccessResponse<LawsResponseType> | null;
   isLoading: boolean;
 };
 
@@ -34,13 +39,11 @@ export const ContainerResult: FC<Props> = (props: Props) => {
     <div className="flex w-full flex-col gap-4">
       <p className="text-xs text-gray-400">
         検索結果：
-        <span className="text-sm text-gray-800">
-          {result.lawsResponse.count}
-        </span>
+        <span className="text-sm text-gray-800">{result.data.count}</span>
         &nbsp;件見つかりました。
       </p>
       <div className="grid w-full grid-cols-1 gap-2">
-        {result.lawsResponse.laws.map((law) => (
+        {result.data.laws.map((law) => (
           <CardResult
             key={law.law_info.law_id}
             law={law}
