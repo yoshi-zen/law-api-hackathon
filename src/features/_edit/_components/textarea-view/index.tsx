@@ -92,10 +92,7 @@ export const EditView: FC<Props> = (props: Props) => {
           <SheetTrigger asChild>
             <button
               type="button"
-              className={twMerge(
-                " rounded-full cursor-pointer p-2 shadow-md bg-white border-2 border-solid border-red-700 duration-150",
-                isEditMode && "bg-red-700",
-              )}
+              className="cursor-pointer rounded-full border-2 border-solid border-red-700 bg-white p-2 shadow-md duration-150"
             >
               <Bot
                 className="text-red-700"
@@ -149,7 +146,7 @@ export const EditView: FC<Props> = (props: Props) => {
           />
         </button>
       </div>
-    </div>
+    </div >
   ) : null;
 };
 

@@ -24,7 +24,7 @@ interface Message {
 export default function TabContentChat() {
     // apiKeys を取得し、先頭のキーを currentApiKey として使用
     const { apiKeys } = useApiKey();
-    const currentApiKey = apiKeys.length > 0 ? apiKeys[0] : "";
+    const currentApiKey = apiKeys.length > 0 ? apiKeys[0].key : "";
     const [input, setInput] = useState("");
     const [chat, setChat] = useState<Message[]>([]);
     const [model, setModel] = useState("Auxiliary");

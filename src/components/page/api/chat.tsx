@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // ChatGPT の応答を取得 (新しい API 形式)
     const response = await openai.chat.completions.create({
-      model: model || "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo",
       messages,
     });
 
