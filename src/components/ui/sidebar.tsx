@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import { BreadCrumb } from "../breadcrumbs";
 import {} from "./breadcrumb";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
@@ -288,7 +287,7 @@ const SidebarTrigger = React.forwardRef<
       variant="ghost"
       size="icon"
       className={cn(
-        "h-10 w-[calc(50vw-9.5rem)] bg-slate-200 justify-start m-4 p-4 absolute z-50",
+        "h-10 w-[calc(20vw-9.5rem)] bg-slate-200 justify-start m-4 p-4 absolute z-50",
         className,
       )}
       onClick={(event) => {
@@ -299,9 +298,9 @@ const SidebarTrigger = React.forwardRef<
     >
       <PanelLeft />
       <div className="mr-2 h-[170%] border-r-2 border-solid border-slate-400 pr-2" />
-      <div>
+      {/* <div>
         <BreadCrumb />
-      </div>
+      </div> */}
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

@@ -45,13 +45,13 @@ export const MenuItemComponent = ({ item, route }: Props): ReactNode => {
           route={route}
         />
       );
-    case "SupplProvision":
-      return (
-        <SidebarTabSet.SupplProvision
-          item={item}
-          route={route}
-        />
-      );
+    // case "SupplProvision":
+    //   return (
+    //     <SidebarTabSet.SupplProvision
+    //       item={item}
+    //       route={route}
+    //     />
+    //   );
     case "Chapter":
       return (
         <SidebarTabSet.Chapter
@@ -91,6 +91,9 @@ export const MenuItemComponent = ({ item, route }: Props): ReactNode => {
       return null;
 
     case "AppdxTable":
+      return null;
+
+    case "SupplProvision":
       return null;
   }
 

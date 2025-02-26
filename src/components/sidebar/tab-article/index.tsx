@@ -48,35 +48,35 @@ export const SidebarTabSet = {
     );
   },
 
-  SupplProvision: function SupplProvision(props: Props) {
-    return (
-      <>
-        <h3 className="flex items-center gap-2 py-1 text-xs font-bold">
-          <span>附則</span>
-          <span>{(props.item.attr["AmendLawNum"] as string) ?? ""}</span>
-        </h3>
-        {props.item?.children?.map((child, index) => {
-          if (typeof child === "string") {
-            return (
-              <SidebarMenuItem key={`${props.item.tag}-child-string-${index}`}>
-                <span className="text-xs">{child}</span>
-              </SidebarMenuItem>
-            );
-          }
-          if (child.tag === "SupplProvisionLabel") {
-            return null;
-          }
-          return (
-            <MenuItemComponent
-              key={`${child.tag}-${index}`}
-              item={child}
-              route={props.route}
-            />
-          );
-        }) ?? ""}
-      </>
-    );
-  },
+  // SupplProvision: function SupplProvision(props: Props) {
+  //   return (
+  //     <>
+  //       <h3 className="flex items-center gap-2 py-1 text-xs font-bold">
+  //         <span>附則</span>
+  //         <span>{(props.item.attr["AmendLawNum"] as string) ?? ""}</span>
+  //       </h3>
+  //       {props.item?.children?.map((child, index) => {
+  //         if (typeof child === "string") {
+  //           return (
+  //             <SidebarMenuItem key={`${props.item.tag}-child-string-${index}`}>
+  //               <span className="text-xs">{child}</span>
+  //             </SidebarMenuItem>
+  //           );
+  //         }
+  //         if (child.tag === "SupplProvisionLabel") {
+  //           return null;
+  //         }
+  //         return (
+  //           <MenuItemComponent
+  //             key={`${child.tag}-${index}`}
+  //             item={child}
+  //             route={props.route}
+  //           />
+  //         );
+  //       }) ?? ""}
+  //     </>
+  //   );
+  // },
   Chapter: function Chapter(props: Props) {
     return (
       <CollapsibleTab
