@@ -1,9 +1,10 @@
 "use client"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { useApiKey } from "@/contexts/api-key-context";
 import { useState } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // APIキーが長い場合、先頭と末尾を表示して中間を"..."で省略するヘルパー関数
 function truncateApiKey(key: string, maxLength: number = 20): string {
@@ -16,11 +17,13 @@ function truncateApiKey(key: string, maxLength: number = 20): string {
 export function SettingsDialog() {
     const { apiKeys, addApiKey, removeApiKey } = useApiKey();
     const [newApiKey, setNewApiKey] = useState("");
+    const [selectedModel, setSelectedModel] = useState("Auxiliary");
 
     const handleSave = () => {
         if (newApiKey) {
-            addApiKey(newApiKey);
-            setNewApiKey(""); // 入力フィールドをクリア
+            // addApiKey に 1 つのオブジェクトを渡す
+            addApiKey({ key: newApiKey, model: selectedModel });
+            setNewApiKey("");
         }
     };
 
@@ -47,45 +50,43 @@ export function SettingsDialog() {
                         onChange={(e) => setNewApiKey(e.target.value)}
                     />
                 </div>
-                <div className="mt-4 overflow-x-auto">
-                    <strong>現在のAPIキー:</strong>
-                    <table className="min-w-full divide-y divide-gray-200 mt-2">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    API Key
-                                </th>
-                                <th className="px-4 py-2"></th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {apiKeys.map((key: string) => (
-                                <tr key={key}>
-                                    <td className="px-4 py-2 whitespace-nowrap">
-                                        <span className="block truncate" title={key}>
-                                            {truncateApiKey(key)}
-                                        </span>
-                                    </td>
-                                    <td className="px-4 py-2 whitespace-nowrap">
-                                        <Button
-                                            type="button"
-                                            onClick={() => removeApiKey(key)}
-                                            variant="destructive"
-                                        >
-                                            削除
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <div className="mt-4">
+                    <strong>モデルの選択:</strong>
+                    <Select value={selectedModel} onValueChange={setSelectedModel}>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="モデルを選択" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="Auxiliary">Auxiliary</SelectItem>
+                            <SelectItem value="Relevance">Relevance</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
-                <DialogFooter className="sm:justify-end">
-                    <DialogClose asChild>
-                        <Button type="button" variant="secondary">
-                            Close
-                        </Button>
-                    </DialogClose>
+                <div className="mt-4">
+                    <strong>現在のAPIキー:</strong>
+                    <ul>
+                        {apiKeys.map(({ key, model }) => (
+                            <li key={key} className="flex justify-between items-center">
+                                <span title={key} className="block truncate">
+                                    ・{model === "Auxiliary" ? "生成補助" : "関連性"}：
+                                </span>
+                                <span title={key} className="block truncate">
+                                    {truncateApiKey(key)}
+                                </span>
+                                <Button
+                                    type="button"
+                                    onClick={() => removeApiKey(key)}
+                                    variant="destructive"
+                                    className="ml-4"
+                                >
+                                    削除
+                                </Button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <DialogFooter>
+                    <Button type="button" onClick={handleSave}>保存</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

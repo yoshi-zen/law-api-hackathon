@@ -73,12 +73,12 @@ export default function RootLayout({
                         </div>
                       </TabsTrigger>
                       <TabsTrigger value="external">
-                    <div className="flex gap-2">
-                      <div className="text-sm"><ExternalLink /></div>
-                      <div>外部AI補助</div>
-                    </div>
-                  </TabsTrigger>
-                </TabsList>
+                        <div className="flex gap-2">
+                          <div className="text-sm"><ExternalLink /></div>
+                          <div>外部サイトでのAI補助</div>
+                        </div>
+                      </TabsTrigger>
+                    </TabsList>
                     {/* ここに設定アイコン（SettingsDialog）が表示され、クリックするとAPIキー入力モーダルが開く */}
                     <SettingsDialog />
                   </div>
@@ -89,9 +89,9 @@ export default function RootLayout({
                     <TabContentChat />
                   </TabsContent>
                   <TabsContent value="external">
-                  <TabContentExternal/>
-                </TabsContent>
-              </Tabs>
+                    <TabContentExternal />
+                  </TabsContent>
+                </Tabs>
               </div>
             </div>
           </SidebarProvider>

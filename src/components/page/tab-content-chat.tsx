@@ -121,7 +121,7 @@ export default function TabContentChat() {
                     <label className="block mb-1 font-bold text-xl">Your Message</label>
                     <Select value={model} onValueChange={setModel}>
                         <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select a fruit" />
+                            <SelectValue placeholder="モデルを選択" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="Auxiliary">生成補助</SelectItem>
