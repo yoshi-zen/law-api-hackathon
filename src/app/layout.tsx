@@ -10,7 +10,8 @@ import { BreadCrumb } from "@/components/breadcrumbs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { twMerge } from "tailwind-merge";
 import TabContentChat from "@/components/page/tab-content-chat";
-import { FileClock, Sparkles } from "lucide-react";
+import { ExternalLink, FileClock, Sparkles } from "lucide-react";
+import TabContentExternal from "@/components/page/tab-content-external";
 import { SettingsDialog } from "@/components/page/settings-dialog";
 import { ApiKeyProvider } from "@/contexts/api-key-context";
 
@@ -71,7 +72,13 @@ export default function RootLayout({
                           <div>AI補助</div>
                         </div>
                       </TabsTrigger>
-                    </TabsList>
+                      <TabsTrigger value="external">
+                    <div className="flex gap-2">
+                      <div className="text-sm"><ExternalLink /></div>
+                      <div>外部AI補助</div>
+                    </div>
+                  </TabsTrigger>
+                </TabsList>
                     {/* ここに設定アイコン（SettingsDialog）が表示され、クリックするとAPIキー入力モーダルが開く */}
                     <SettingsDialog />
                   </div>
@@ -81,7 +88,10 @@ export default function RootLayout({
                   <TabsContent value="auxiliary">
                     <TabContentChat />
                   </TabsContent>
-                </Tabs>
+                  <TabsContent value="external">
+                  <TabContentExternal/>
+                </TabsContent>
+              </Tabs>
               </div>
             </div>
           </SidebarProvider>
