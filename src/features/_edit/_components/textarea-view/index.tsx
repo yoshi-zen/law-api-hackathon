@@ -21,11 +21,10 @@ import { twMerge } from "tailwind-merge";
 
 import { SettingsDialog } from "@/components/page/settings-dialog";
 import TabContentChat from "@/components/page/tab-content-chat";
-import TabContentDesign from "@/components/page/tab-content-design";
 import TabContentExternal from "@/components/page/tab-content-external";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ExternalLink, FileClock, Sparkles } from "lucide-react";
+import { ExternalLink, Sparkles } from "lucide-react";
 
 type Props = {
   isV: boolean;
@@ -97,24 +96,20 @@ export const EditView: FC<Props> = (props: Props) => {
                 " rounded-full cursor-pointer p-2 shadow-md bg-white border-2 border-solid border-red-700 duration-150",
                 isEditMode && "bg-red-700",
               )}
-              onClick={() => setIsEditMode(!isEditMode)}
             >
               <Bot
-                className={twMerge("text-red-700", isEditMode && "text-white")}
+                className="text-red-700"
               />
             </button>
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent className="min-w-[600px]">
+            <SheetHeader>
+              <SheetTitle>AI補助</SheetTitle>
+            </SheetHeader>
             <div className="rounded-md p-4 pl-0">
               <Tabs defaultValue="history" className="h-full w-full">
                 <div className="flex items-center justify-between">
                   <TabsList>
-                    <TabsTrigger value="history">
-                      <div className="flex gap-2">
-                        <FileClock />
-                        <div>改変履歴</div>
-                      </div>
-                    </TabsTrigger>
                     <TabsTrigger value="auxiliary">
                       <div className="flex gap-2">
                         <Sparkles />
@@ -131,9 +126,6 @@ export const EditView: FC<Props> = (props: Props) => {
                   {/* ここに設定アイコン（SettingsDialog）が表示され、クリックするとAPIキー入力モーダルが開く */}
                   <SettingsDialog />
                 </div>
-                <TabsContent value="history">
-                  <TabContentDesign />
-                </TabsContent>
                 <TabsContent value="auxiliary">
                   <TabContentChat />
                 </TabsContent>

@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
-import {} from "../ui/dialog";
+import { DialogHeader } from "../ui/dialog";
 import { SidebarTrigger } from "../ui/sidebar";
 
 export const TopBar = () => {
@@ -31,8 +31,10 @@ export const TopBar = () => {
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
-          <AlertDialogTitle>法律の変更</AlertDialogTitle>
-          <p>選択中の法律を変更しますか？</p>
+          <DialogHeader>
+            <AlertDialogTitle>法律の変更</AlertDialogTitle>
+            <p>選択中の法律を変更しますか？</p>
+          </DialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel asChild>
               <Button

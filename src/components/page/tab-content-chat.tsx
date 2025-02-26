@@ -1,10 +1,8 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
 // shadcn/ui コンポーネントのインポート例（パスはプロジェクトに合わせて調整）
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import {
     Select,
     SelectContent,
@@ -12,7 +10,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useApiKey } from "@/contexts/api-key-context";
+import { useEffect, useRef, useState } from "react";
 import { ChatInfromationsDialog } from "./chat-informations-dialog";
 
 interface Message {
@@ -77,15 +77,15 @@ export default function TabContentChat() {
     };
 
     return (
-        <div className="container mx-auto p-4 h-[calc(100vh-14.5rem)]">
-            <Card className="shadow-md h-full">
+        <div className="container mx-auto h-[calc(100vh-19.5rem)] p-4">
+            <Card className="h-full shadow-md">
                 <CardHeader>
-                    <CardTitle className="text-xl pl-4 font-bold flex justify-between items-center">
+                    <CardTitle className="flex items-center justify-between pl-4 text-xl font-bold">
                         <div>{model === "Auxiliary" ? "生成補助" : "関連性"}</div>
                         <ChatInfromationsDialog type={model} />
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="h-[calc(100%-5rem)] my-2 overflow-y-scroll space-y-2">
+                <CardContent className="my-2 h-[calc(100%-5rem)] space-y-2 overflow-y-scroll">
                     {chat.map((message, index) => (
                         <div
                             key={index}
@@ -118,7 +118,7 @@ export default function TabContentChat() {
 
             <form onSubmit={handleSubmit} className="mt-4">
                 <div className="mb-4 grid grid-cols-2 items-center">
-                    <label className="block mb-1 font-bold text-xl">Your Message</label>
+                    <label className="mb-1 block text-xl font-bold">Your Message</label>
                     <Select value={model} onValueChange={setModel}>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="モデルを選択" />
