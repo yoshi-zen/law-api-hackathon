@@ -8,7 +8,7 @@ import { fetchSpecificLaw } from "@/features/_search/_actions/fetch-specific-law
 import { editModeAtom, specificLawAtom } from "@/jotai/atoms";
 import type { FullText } from "features/_search/_types/_common/law-data-response";
 import { useAtom, useAtomValue } from "jotai";
-import { Pencil } from "lucide-react";
+import { Bot, Pencil } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import {
   type Dispatch,
@@ -18,6 +18,13 @@ import {
   useState,
 } from "react";
 import { twMerge } from "tailwind-merge";
+
+import { SettingsDialog } from "@/components/page/settings-dialog";
+import TabContentChat from "@/components/page/tab-content-chat";
+import TabContentExternal from "@/components/page/tab-content-external";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ExternalLink, Sparkles } from "lucide-react";
 
 type Props = {
   isV: boolean;
@@ -80,18 +87,68 @@ export const EditView: FC<Props> = (props: Props) => {
           />
         ))}
       </div>
-      <button
-        type="button"
-        className={twMerge(
-          "fixed bottom-6 right-6 rounded-full cursor-pointer p-2 shadow-md bg-white border-2 border-solid border-blue-700 duration-150",
-          isEditMode && "bg-blue-700",
-        )}
-        onClick={() => setIsEditMode(!isEditMode)}
-      >
-        <Pencil
-          className={twMerge("text-blue-700", isEditMode && "text-white")}
-        />
-      </button>
+      <div className="fixed bottom-6 right-6 flex flex-col gap-4">
+        <Sheet>
+          <SheetTrigger asChild>
+            <button
+              type="button"
+              className={twMerge(
+                " rounded-full cursor-pointer p-2 shadow-md bg-white border-2 border-solid border-red-700 duration-150",
+                isEditMode && "bg-red-700",
+              )}
+            >
+              <Bot
+                className="text-red-700"
+              />
+            </button>
+          </SheetTrigger>
+          <SheetContent className="min-w-[600px]">
+            <SheetHeader>
+              <SheetTitle>AI補助</SheetTitle>
+            </SheetHeader>
+            <div className="rounded-md p-4 pl-0">
+              <Tabs defaultValue="history" className="h-full w-full">
+                <div className="flex items-center justify-between">
+                  <TabsList>
+                    <TabsTrigger value="auxiliary">
+                      <div className="flex gap-2">
+                        <Sparkles />
+                        <div>AI補助</div>
+                      </div>
+                    </TabsTrigger>
+                    <TabsTrigger value="external">
+                      <div className="flex gap-2">
+                        <div className="text-sm"><ExternalLink /></div>
+                        <div>外部サイトでのAI補助</div>
+                      </div>
+                    </TabsTrigger>
+                  </TabsList>
+                  {/* ここに設定アイコン（SettingsDialog）が表示され、クリックするとAPIキー入力モーダルが開く */}
+                  <SettingsDialog />
+                </div>
+                <TabsContent value="auxiliary">
+                  <TabContentChat />
+                </TabsContent>
+                <TabsContent value="external">
+                  <TabContentExternal />
+                </TabsContent>
+              </Tabs>
+            </div>
+          </SheetContent>
+        </Sheet>
+        <button
+          type="button"
+          className={twMerge(
+            " rounded-full cursor-pointer p-2 shadow-md bg-white border-2 border-solid border-blue-700 duration-150",
+            isEditMode && "bg-blue-700",
+          )}
+          onClick={() => setIsEditMode(!isEditMode)}
+        >
+          <Pencil
+            className={twMerge("text-blue-700", isEditMode && "text-white")}
+          />
+        </button>
+      </div>
     </div>
   ) : null;
 };

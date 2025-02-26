@@ -1,6 +1,7 @@
 "use client";
 
 import { Switch } from "@/components/ui/switch";
+import { ApiKeyProvider } from "@/contexts/api-key-context";
 import { EditView } from "@/features/_edit/_components/textarea-view";
 import { specificLawAtom } from "@/jotai/atoms";
 import { InputConditionList } from "features/_search/_components/input-condition-list";
@@ -32,10 +33,12 @@ export default function Home() {
           <span>縦書きモード</span>
         </div>
         {selectedLaw ? (
-          <EditView
-            isV={isVerticalMode}
-            setIsV={setIsVerticalMode}
-          />
+          <ApiKeyProvider>
+            <EditView
+              isV={isVerticalMode}
+              setIsV={setIsVerticalMode}
+            />
+          </ApiKeyProvider>
         ) : (
           <InputConditionList />
         )}

@@ -6,7 +6,7 @@ import { AppSidebar } from "@/components/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 import { TopBar } from "@/components/frames/top-bar";
-import {} from "@/components/ui/tabs";
+
 import { Toaster } from "@/components/ui/toaster";
 // import { BreadCrumb } from "@/components/breadcrumbs";
 import { twMerge } from "tailwind-merge";
@@ -23,9 +23,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
@@ -38,24 +38,6 @@ export default function RootLayout({
           <AppSidebar />
           <div className="grid h-screen w-full grid-rows-[2.5em_1fr] gap-2 p-2">
             <TopBar />
-            {/* <Tabs className="row-span-2 grid grid-rows-[2.5em_1fr] gap-2">
-              <TabsList className="justify-start rounded-md bg-gray-200 p-1">
-                <TabsTrigger value="history">改変履歴</TabsTrigger>
-                <TabsTrigger value="auxiliary">AI補助</TabsTrigger>
-              </TabsList>
-              <TabsContent
-                value="history"
-                className="mt-0 h-full rounded-md bg-gray-200"
-              >
-                <TabContentDesign />
-              </TabsContent>
-              <TabsContent
-                value="auxiliary"
-                className="mt-0 h-full rounded-md"
-              >
-                Change your password here.
-              </TabsContent>
-            </Tabs> */}
             <div className="flex-col overflow-y-scroll rounded-md bg-gray-100">
               {children}
             </div>
