@@ -18,7 +18,7 @@ export default function HomePage() {
                </CardHeader>
                <CardContent className="flex flex-col justify-between h-[calc(100%-3rem)]">
                   <p className="mb-4 text-gray-700">
-                     最新の法令作成支援ツールで、効率的かつ正確な法令作成をサポートします。
+                     知識をもとにxml形式で法律を作成するGPTsです。
                   </p>
                   <Button className="w-full mt-auto">
                      <Link
@@ -40,7 +40,7 @@ export default function HomePage() {
                </CardHeader>
                <CardContent className="flex flex-col justify-between h-[calc(100%-3rem)]">
                   <p className="mb-4 text-gray-700">
-                     法令同士の関連性を解析し、深い洞察を提供するツールです。
+                     作成した法令と現在の法令の関連性を確認するGPTsです。
                   </p>
                   <Button className="w-full mt-auto">
                      <Link
