@@ -22,12 +22,12 @@ export function ChatInfromationsDialog({
         <DialogHeader>
           <DialogTitle>モデル説明</DialogTitle>
           <DialogDescription>
-            このモデルは
+            このモデルは{type === "Auxiliary" ? "生成補助" : "関連性"}を行うためのモデルです。
           </DialogDescription>
         </DialogHeader>
         <div className="my-4">
           <div className="">
-            <strong>知識をもとにxml形式で[法令の内容]に対しての法律を作成してください。法令は省略せずに全て記述してください。</strong>
+            <strong>モデルの知識は法令APIを用いていますが、回答は必ずしも正しいとは限りません。重要な情報は確認するようにしてください。            </strong>
           </div>
         </div>
 
