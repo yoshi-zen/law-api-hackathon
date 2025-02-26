@@ -1,6 +1,7 @@
 // pages/api/chat.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
+import { NextResponse } from "next/server";
 
 const configuration = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -17,6 +18,12 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const { messages } = req.body;
+      if (!messages || messages.length === 0) {
+        return NextResponse.json(
+          { error: "メッセージが指定されていません" },
+          { status: 400 }
+        );
+      }
       const response = await openai.chat.completions.create({
         model: "gpt-3.5-turbo", // 使用するモデルを指定
         messages,
