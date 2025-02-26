@@ -114,7 +114,7 @@ const ViewerElementByTag = ({
     case "Paragraph":
       return (
         <div className="flex flex-col gap-5 pb-4">
-          <div>
+          <div className="h-full">
             {items.children?.map((c, idx) => {
               return (
                 <ViewerElementByTag
@@ -128,7 +128,6 @@ const ViewerElementByTag = ({
           {isEditMode && (
             <Button
               type="button"
-              variant="outline"
               className={twMerge("w-fit h-7", isV && "h-fit w-5")}
             >
               新しい項を追加
@@ -145,7 +144,10 @@ const ViewerElementByTag = ({
         return isEditMode ? (
           <Textarea
             key={`${(c as FullText).tag}-${idx}`}
-            className={twMerge("inline h-5  w-full", isV && "w-auto h-full")}
+            className={twMerge(
+              "inline [field-sizing:content] w-full",
+              isV && "w-auto h-full",
+            )}
             defaultValue={((c as FullText).children?.[0] as string) ?? ""}
           />
         ) : (
@@ -159,7 +161,7 @@ const ViewerElementByTag = ({
         <div
           className={twMerge("flex flex-col gap-4 pb-6", isV ? "pt-4" : "pl-4")}
         >
-          <div>
+          <div className="h-full">
             {items.children?.map((c, idx) => {
               return (
                 <div key={`${(c as FullText).tag}-${idx}`}>
@@ -174,7 +176,6 @@ const ViewerElementByTag = ({
           {isEditMode && (
             <Button
               type="button"
-              variant="outline"
               className={twMerge("w-fit h-7", isV && "h-fit w-5")}
             >
               新しい号を追加
@@ -201,7 +202,10 @@ const ViewerElementByTag = ({
       return isEditMode ? (
         <Textarea
           defaultValue={items.children?.[0] as string}
-          className={twMerge("h-fit", isV && "w-auto h-full")}
+          className={twMerge(
+            "h-fit [field-sizing:content]",
+            isV && "w-auto h-full",
+          )}
         />
       ) : (
         <p>{items.children?.[0] as string}</p>

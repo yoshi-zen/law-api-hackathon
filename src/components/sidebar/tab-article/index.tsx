@@ -51,7 +51,10 @@ export const SidebarTabSet = {
   SupplProvision: function SupplProvision(props: Props) {
     return (
       <>
-        <h3 className="py-1 text-xs font-bold">附則</h3>
+        <h3 className="flex items-center gap-2 py-1 text-xs font-bold">
+          <span>附則</span>
+          <span>{(props.item.attr["AmendLawNum"] as string) ?? ""}</span>
+        </h3>
         {props.item?.children?.map((child, index) => {
           if (typeof child === "string") {
             return (
