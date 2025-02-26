@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { fetchSpecificLaw } from "@/features/_search/_actions/fetch-specific-law";
 import { editModeAtom, specificLawAtom } from "@/jotai/atoms";
@@ -28,6 +29,7 @@ export const EditView: FC<Props> = (props: Props) => {
 
   const [specificArticle, setSpecificArticle] = useState<FullText | null>(null);
   const [isEditMode, setIsEditMode] = useAtom(editModeAtom);
+  const [isLoading, setIsLoading] = useState(true);
   const searchParams = useSearchParams();
   const law = useAtom(specificLawAtom);
 
@@ -35,6 +37,7 @@ export const EditView: FC<Props> = (props: Props) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await fetchSpecificLaw(
@@ -45,13 +48,23 @@ export const EditView: FC<Props> = (props: Props) => {
           setSpecificArticle(response.data.law_full_text as FullText);
           console.log("success", response);
         }
-        console.log("error", response);
-      } catch (e) {}
+      } catch (e) {
+        console.log(`error, ${e}`);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchData();
   }, [searchParams]);
 
-  return (
+  return isLoading ? (
+    <div className="flex flex-col gap-3 p-4">
+      <Skeleton className="h-4 w-[550px] bg-gray-600" />
+      <Skeleton className="h-4 w-[250px] bg-gray-600" />
+      <Skeleton className="h-4 w-[350px] bg-gray-600" />
+      <Skeleton className="h-4 w-[250px] bg-gray-600" />
+    </div>
+  ) : elm ? (
     <div className="relative flex h-full w-full justify-end overflow-x-auto text-sm">
       <div
         className={twMerge(
@@ -80,7 +93,7 @@ export const EditView: FC<Props> = (props: Props) => {
         />
       </button>
     </div>
-  );
+  ) : null;
 };
 
 const ViewerElementByTag = ({
